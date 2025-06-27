@@ -51,23 +51,31 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None
-    POSTGRES_SERVER: str
+    
+    # Database Configuration - Support SQLite for development
+    USE_SQLITE: bool = True  # Enable SQLite for development
+    SQLITE_DB_PATH: str = "rag_system.db"
+    
+    POSTGRES_SERVER: str = ""
     POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str
+    POSTGRES_USER: str = ""
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return MultiHostUrl.build(
-            scheme="postgresql+psycopg",
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            host=self.POSTGRES_SERVER,
-            port=self.POSTGRES_PORT,
-            path=self.POSTGRES_DB,
-        )
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.USE_SQLITE:
+            return f"sqlite:///./{self.SQLITE_DB_PATH}"
+        else:
+            return str(MultiHostUrl.build(
+                scheme="postgresql+psycopg",
+                username=self.POSTGRES_USER,
+                password=self.POSTGRES_PASSWORD,
+                host=self.POSTGRES_SERVER,
+                port=self.POSTGRES_PORT,
+                path=self.POSTGRES_DB,
+            ))
 
     SMTP_TLS: bool = True
     SMTP_SSL: bool = False
@@ -90,10 +98,65 @@ class Settings(BaseSettings):
     @property
     def emails_enabled(self) -> bool:
         return bool(self.SMTP_HOST and self.EMAILS_FROM_EMAIL)
+    
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def parsed_gemini_api_keys(self) -> list[str]:
+        """Parse comma-separated API keys for rotation"""
+        if not self.GEMINI_API_KEYS:
+            return [self.GEMINI_API_KEY] if self.GEMINI_API_KEY else []
+        
+        # Split by comma and clean up whitespace
+        keys = [key.strip() for key in self.GEMINI_API_KEYS.split(",") if key.strip()]
+        
+        # Add primary key if not already included
+        if self.GEMINI_API_KEY and self.GEMINI_API_KEY not in keys:
+            keys.insert(0, self.GEMINI_API_KEY)
+        
+        return keys
 
     EMAIL_TEST_USER: EmailStr = "test@example.com"
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
+
+    # RAG System Configuration
+    # AI Models and APIs (Updated to Gemini 2.5 Flash-Lite Preview)
+    GEMINI_API_KEY: str
+    GEMINI_MODEL: str = "gemini-2.5-flash-lite-preview-06-17"
+    GEMINI_EMBEDDING_MODEL: str = "gemini-embedding-exp-03-07"
+    GEMINI_EMBEDDING_DIMENSION: int = 3072  # Elastic: 3072, 1536, or 768
+    OPENAI_API_KEY: str = ""  # For embeddings (text-embedding-3-small)
+    
+    # Multiple API Keys for Rotation (comma-separated)
+    GEMINI_API_KEYS: str = ""  # Format: "key1,key2,key3,..." for rotation
+    USE_API_ROTATION: bool = False  # Enable multi-key rotation
+    
+    # Text Processing Settings (from PRD requirements)
+    CHUNK_SIZE: int = 1000  # Character-based chunking
+    CHUNK_OVERLAP: int = 200  # Overlap between chunks
+    MIN_CHUNK_SIZE: int = 50  # Minimum chunk size to keep
+    MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB from PRD
+    
+    # File Storage
+    UPLOAD_DIR: str = "uploads"  # Directory for uploaded files
+    
+    # Vector Database (Pinecone)
+    PINECONE_API_KEY: str = ""
+    PINECONE_ENVIRONMENT: str = "us-east-1"
+    PINECONE_INDEX_NAME: str = "rag-index"
+    
+    # Redis Configuration (for caching)
+    REDIS_URL: str = "redis://localhost:6379"
+    
+    # Rate Limiting (based on Gemini free tier)
+    MAX_REQUESTS_PER_MINUTE: int = 15  # Gemini Flash-Lite Preview limit
+    MAX_REQUESTS_PER_DAY: int = 1000   # Daily limit from PRD
+    
+    # Query Settings
+    DEFAULT_TOP_K: int = 10  # Number of chunks to retrieve (optimized)
+    DEFAULT_TEMPERATURE: float = 0.3  # LLM temperature
+    MAX_QUERY_LENGTH: int = 500  # Maximum query characters
+    SIMILARITY_THRESHOLD: float = 0.25  # Minimum similarity for retrieval (optimized for Sentence Transformers)
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
@@ -109,7 +172,11 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _enforce_non_default_secrets(self) -> Self:
         self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
-        self._check_default_secret("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
+        
+        # Only check PostgreSQL password if not using SQLite
+        if not self.USE_SQLITE:
+            self._check_default_secret("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
+            
         self._check_default_secret(
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )

@@ -1,0 +1,44 @@
+USER QUESTION: Suistimal blokeleri neden oluşur ?
+==================================================
+CONTEXT SENT TO AI:
+[Kaynak 1] e Tanımları
+
+
+--- Slide 7 ---
+
+2-Suistimal BlokeleriSuistimal blokeleri, Dolandırıcılık Şüphesi ve Ulaşılamayan Müşteri alt bloke sebeplerinden oluşur. Suistimal Blokesi olduğunda müşteriye blokesi olduğunu iletmemeliyiz.Suistimal Blokesi olduğunda; "Güvenlik nedeniyle işleminiz incelemededir.
+
+[Kaynak 2] atalı girildiğinde bloke olur.Alternatif güvenlik sorusunun bloke olması durumunda çağrı ilk açıldığında ekranımıza görseldeki uyarı gelecektir.
+
+Alternatif Güvenlik Sorusu Blokesi
+
+
+--- Slide 16 ---
+
+Alternatif Güvenlik Sorusu Bloke Çözme
+
+[Kaynak 3] i Unuttum" butonuna tıklanır.
+
+Ekranda şifre oluşturmak için 3 ayrı seçenek çıkacaktır. "T.C Kimlik Kartı ile Şifre Hatırlat" seçilerek devam edilir.
+
+
+--- Slide 19 ---
+
+Alternatif Güvenlik Sorusu Bloke Çözme
+
+Müşterinin doldurması gereken bilgiler yer alacaktır.
+
+[Kaynak 4] nedeniyle bloke konulmaktadır.NOT: Bu blokeler dışında banka tarafından hesaba veya kanala konulan çeşitli blokeler bulunmaktadır. Bloke izleme ekranından bunlar görülebilir. Ancak müşteriye bilgilendirme yapılmadan MBS kaydı açılmalıdır.
+
+Kanal Bloke Sebepleri ve Tanımları
+
+
+--- Slide 9 ---
+
+[Kaynak 5] ni bir şifre gönderildiğinde bloke otomatik kalkmaktadır. Bu nedenle ayrıca bloke çözme yapılmasına gerek bulunmamaktadır.
+
+
+--- Slide 28 ---
+
+Teşekkürler
+==================================================

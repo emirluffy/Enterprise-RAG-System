@@ -1,0 +1,20 @@
+Enterprise RAG Test Document
+
+Bu test belgesi, Enterprise RAG sisteminin belge işleme ve soru-cevap özelliklerini test etmek için oluşturulmuştur.
+
+Kredi Kartı İşlemleri:
+- Kredi kartı başvurusu için kimlik belgesi gereklidir
+- Aylık gelir minimum 3000 TL olmalıdır
+- Kredi kartı limitiniz gelir seviyenize göre belirlenir
+
+Hesap İşlemleri:
+- Vadesiz hesap açmak için kimlik belgesi yeterlidir
+- Internet bankacılığı için ayrıca telefon numarası doğrulaması gerekir
+- Hesap bakiye sorgulaması 7/24 ATM'lerden yapılabilir
+
+Kredi İşlemleri:
+- Konut kredisi için gelir belgesi ve sigorta şarttır
+- Kredinin onaylanması için FICO skoru en az 650 olmalıdır
+- Kredi faiz oranları haftalık olarak güncellenir
+
+Bu belge test amaçlıdır ve gerçek bankacılık prosedürlerini yansıtmayabilir. 

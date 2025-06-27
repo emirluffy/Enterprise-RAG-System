@@ -1,0 +1,158 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Server Startup Protocol - MANDATORY Rules
+
+## 🚨 CRITICAL: Always Use ./start.sh (NO EXCEPTIONS)
+
+### **Why ./start.sh is MANDATORY**
+From [systemPatterns.md](mdc:memory-bank/systemPatterns.md) and system logs:
+
+1. **Process Cleanup**: Automatically kills existing Python/Node processes
+2. **Port Conflict Prevention**: Prevents "port already in use" errors  
+3. **Clean State**: Ensures fresh server instances without memory leaks
+4. **Dual Server Management**: Properly starts Backend (8002) + Frontend (5174)
+5. **Environment Consistency**: Applies correct environment variables and configs
+
+### **Server Management Rules**
+
+#### **✅ CORRECT - ALWAYS use [start.sh](mdc:start.sh)**
+```bash
+./start.sh  # Starts both backend + frontend with proper cleanup
+```
+
+#### **❌ FORBIDDEN - Never use these directly**
+```bash
+# ❌ WRONG - Missing process cleanup
+cd backend && python simple_server.py
+
+# ❌ WRONG - Missing backend coordination  
+cd frontend && npm run dev
+
+# ❌ WRONG - Port conflicts possible
+fastapi dev app/main.py
+
+# ❌ WRONG - No cleanup, memory leaks
+python main.py
+```
+
+## Server Startup Process (from logs)
+
+### **What [start.sh](mdc:start.sh) Does:**
+```
+🚀 Starting Enterprise RAG System...
+🛑 Stopping existing development servers on ports 8002 & 5174...
+🎯 Targeting only development ports (preserving MCP servers)...
+🔍 Checking port 8002... ✅ Stopped process
+🔍 Checking port 5174... ✅ Stopped process  
+✅ Development ports cleared (MCP servers preserved)
+⚡ Starting fresh Backend & Frontend servers...
+🔧 Starting Backend (FastAPI on port 8002)...
+🎨 Starting Frontend (React + Vite on port 5174)...
+🎉 Enterprise RAG System is ready!
+```
+
+### **System URLs After Startup:**
+- **Backend API**: http://localhost:8002
+- **API Documentation**: http://localhost:8002/docs
+- **Frontend UI**: http://localhost:5174
+
+## Current System Initialization
+
+### **Backend Services Started:**
+```
+✓ Gemini embeddings client initialized (PRIMARY)
+✓ Sentence Transformers initialized (FALLBACK)
+✅ Loaded existing ChromaDB collection with 3446 documents
+✅ Pinecone client initialized
+```
+
+### **API Endpoints Available:**
+- **Health Check**: http://localhost:8002/health
+- **Chat API**: http://localhost:8002/api/v1/chat/query
+- **Chat Health**: http://localhost:8002/api/v1/chat/health
+- **Document Upload**: http://localhost:8002/api/v1/documents/upload
+- **Document Library**: http://localhost:8002/api/v1/documents/library
+
+## Environment Setup Commands
+
+### **Backend Only** (if needed for debugging)
+```bash
+cd backend
+uv sync                  # Install dependencies
+fastapi dev app/main.py  # Start development server
+```
+
+### **Frontend Only** (if needed for debugging)
+```bash
+cd frontend
+npm install              # Install dependencies
+npm run dev             # Start development server
+```
+
+### **Full Stack** (PREFERRED METHOD)
+```bash
+./start.sh              # ALWAYS use this for normal development
+```
+
+## Emergency Procedures
+
+### **Development Environment Issues**
+From .cursorrules emergency procedures:
+
+1. **Use [start.sh](mdc:start.sh) for system startup** (MANDATORY)
+2. **Check environment variables** in `.env`
+3. **Verify API keys** and permissions
+4. **Consult memory bank** for known issues
+
+### **Port Conflict Resolution**
+If servers fail to start:
+```bash
+# Kill all processes and restart
+./start.sh  # Built-in process cleanup handles this automatically
+```
+
+### **Docker Fallback** (if needed)
+```bash
+docker compose down -v && docker compose up
+```
+
+## System Health Verification
+
+### **After Startup, Check:**
+1. **Backend Health**: http://localhost:8002/health
+2. **Frontend Loading**: http://localhost:5174
+3. **API Documentation**: http://localhost:8002/docs
+4. **Document Library**: Should show existing documents
+5. **Chat Functionality**: Test with simple query
+
+### **Expected Log Patterns:**
+```
+INFO:     Started server process [PID]
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002
+[OK] Chat API rotation initialized with 5 keys
+🔥 Starting Enterprise RAG System...
+```
+
+## Known Warnings (Safe to Ignore)
+
+### **Configuration Warnings:**
+```
+D:\IMPORTANTE\RAG\backend\app\core\config.py:168: UserWarning: 
+The value of SECRET_KEY is "changethis", for security, please change it, 
+at least for deployments.
+```
+**Status**: Development only, not production concern
+
+### **Gemini Rotation Warning:**
+```
+Gemini rotation initialization failed: 'GeminiAPIRotationService' 
+object has no attribute 'is_initialized'
+```
+**Status**: Non-critical, primary Gemini client works correctly
+
+**MANDATORY**: Always use `./start.sh` for server operations - NO EXCEPTIONS
+

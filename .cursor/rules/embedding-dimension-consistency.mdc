@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Embedding Dimension Consistency Rules
+
+## 🚨 CRITICAL: Embedding Dimension Mismatch Prevention
+
+### The Problem
+The most critical bug in RAG systems is embedding dimension mismatch:
+- **Storage**: Documents stored with 384-dim embeddings (Sentence Transformers fallback)
+- **Query**: Queries using 3072-dim embeddings (Gemini primary) 
+- **Result**: ChromaDB fails, system falls back to general knowledge
+
+### Mandatory Checks
+
+#### 1. Vector Store Search ([vector_store.py](mdc:backend/app/services/vector_store.py))
+ALWAYS check dimension compatibility before ChromaDB search:
+```python
+# Get sample embedding to check dimensions
+sample_results = self.chroma_collection.get(limit=1, include=["embeddings"])
+if sample_results and sample_results.get("embeddings"):
+    stored_dimension = len(sample_results["embeddings"][0])
+    query_dimension = len(query_embedding)
+    
+    if stored_dimension != query_dimension:
+        print(f"❌ Dimension mismatch: stored={stored_dimension}, query={query_dimension}")
+        # Fall back to compatible method
+        raise Exception(f"Dimension mismatch")
+```
+
+#### 2. Embedding Service ([embeddings.py](mdc:backend/app/services/embeddings.py))
+Implement intelligent model selection:
+- Check stored document dimensions before query processing
+- Force Sentence Transformers for 384-dim stored docs
+- Force Gemini for 3072-dim stored docs
+- Never mix embedding models without dimension checking
+
+#### 3. Testing Protocol
+Before deploying any embedding changes:
+1. Upload test document
+2. Note which embedding model was used (check logs)
+3. Query the document with same embedding model
+4. Verify successful retrieval
+5. Test cross-model compatibility
+
+### Prevention Strategies
+- Always log embedding dimensions during storage and query
+- Implement dimension detection in vector search
+- Add embedding model consistency checks
+- Monitor for "dimension mismatch" errors in logs
+
+### Emergency Recovery
+If dimension mismatch occurs:
+1. Identify which documents use which embedding dimensions
+2. Re-process affected documents with consistent embedding model
+3. Or implement cross-dimensional search with model auto-selection
+

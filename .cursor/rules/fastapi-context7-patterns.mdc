@@ -1,0 +1,289 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# FastAPI + Context7 Verified Patterns
+
+## Core FastAPI Architecture (Context7 Verified)
+
+### **Application Structure** ([main.py](mdc:backend/app/main.py))
+```python
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+
+app = FastAPI(
+    title="Enterprise RAG System",
+    description="Document Intelligence API",
+    version="1.0.0"
+)
+
+# CORS configuration for React frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5174"],  # Vite dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+### **Async Route Patterns** (Context7 Verified)
+```python
+# ✅ CORRECT: Async route with proper error handling
+@app.post("/api/v1/chat/query")
+async def process_query(request: QueryRequest) -> QueryResponse:
+    try:
+        result = await rag_service.process_query(request.query)
+        return QueryResponse(
+            answer=result.answer,
+            sources=result.sources,
+            confidence=result.confidence
+        )
+    except Exception as e:
+        logger.error(f"Query processing failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ❌ WRONG: Blocking operations in async route
+@app.post("/bad-endpoint")
+async def bad_example():
+    result = blocking_operation()  # Blocks entire server
+    return result
+```
+
+## Pydantic v2 Models (Context7 Verified)
+
+### **Request/Response Models**
+```python
+from pydantic import BaseModel, Field
+from typing import List, Optional
+
+class QueryRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=1000, description="User query")
+    department: Optional[str] = Field(None, description="User department for access control")
+    include_sources: bool = Field(True, description="Include source citations")
+
+class DocumentMetadata(BaseModel):
+    source: str = Field(..., description="Document filename")
+    page: Optional[int] = Field(None, description="Page number if applicable")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Relevance confidence")
+
+class QueryResponse(BaseModel):
+    answer: str = Field(..., description="Generated answer")
+    sources: List[DocumentMetadata] = Field(default_factory=list)
+    processing_time: float = Field(..., description="Response time in seconds")
+    
+    # ✅ Pydantic v2 pattern
+    model_config = {"json_schema_extra": {"example": {...}}}
+```
+
+### **Database Models with SQLModel**
+```python
+from sqlmodel import SQLModel, Field
+from typing import Optional
+import uuid
+
+class Document(SQLModel, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    filename: str = Field(..., max_length=255)
+    content_type: str = Field(..., max_length=100)
+    file_size: int = Field(..., gt=0)
+    department: str = Field(..., max_length=100)
+    processing_status: str = Field(default="pending")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+```
+
+## Async Operations (Context7 Verified)
+
+### **File Upload Handling**
+```python
+from fastapi import UploadFile, File
+import asyncio
+
+@app.post("/api/v1/documents/upload")
+async def upload_document(file: UploadFile = File(...)):
+    # ✅ CORRECT: Use asyncio.to_thread for blocking operations
+    content = await file.read()
+    
+    # Process file in background to avoid blocking
+    task_id = await asyncio.to_thread(
+        document_processor.process_document,
+        content,
+        file.filename,
+        file.content_type
+    )
+    
+    return {"message": "Upload started", "task_id": task_id}
+```
+
+### **External API Calls**
+```python
+import httpx
+import asyncio
+
+# ✅ CORRECT: Async HTTP client
+async def call_gemini_api(prompt: str) -> str:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://generativelanguage.googleapis.com/v1beta/models/...",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={"contents": [{"parts": [{"text": prompt}]}]}
+        )
+        return response.json()
+
+# ✅ CORRECT: Async wrapper for sync libraries  
+async def create_embeddings(texts: List[str]) -> List[List[float]]:
+    return await asyncio.to_thread(
+        embedding_model.encode,
+        texts,
+        convert_to_tensor=False
+    )
+```
+
+## Error Handling Patterns
+
+### **Comprehensive Exception Handling**
+```python
+from fastapi import HTTPException
+import logging
+
+logger = logging.getLogger(__name__)
+
+@app.post("/api/v1/chat/query")
+async def process_query(request: QueryRequest):
+    try:
+        # Primary processing
+        result = await rag_service.process_query(request.query)
+        return result
+        
+    except ValueError as e:
+        # User input validation errors
+        logger.warning(f"Invalid query: {e}")
+        raise HTTPException(status_code=400, detail=f"Invalid query: {e}")
+        
+    except RateLimitError as e:
+        # API quota exceeded
+        logger.warning(f"Rate limit exceeded: {e}")
+        raise HTTPException(status_code=429, detail="Rate limit exceeded")
+        
+    except Exception as e:
+        # Unexpected errors
+        logger.error(f"Unexpected error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Internal server error")
+```
+
+### **Graceful Degradation**
+```python
+async def process_query_with_fallback(query: str) -> QueryResponse:
+    try:
+        # Try primary AI service (Gemini)
+        result = await gemini_service.generate_response(query)
+        return result
+        
+    except Exception as e:
+        logger.warning(f"Primary service failed: {e}")
+        
+        try:
+            # Fallback to secondary service
+            result = await openai_service.generate_response(query)
+            result.metadata["fallback_used"] = True
+            return result
+            
+        except Exception as e2:
+            logger.error(f"All services failed: {e2}")
+            
+            # Final fallback: cached responses or error message
+            return QueryResponse(
+                answer="Sistem geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+                sources=[],
+                confidence=0.0,
+                metadata={"error": "all_services_failed"}
+            )
+```
+
+## Performance Optimization
+
+### **Background Tasks**
+```python
+from fastapi import BackgroundTasks
+
+@app.post("/api/v1/documents/upload")
+async def upload_document(
+    file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None
+):
+    # Save file immediately
+    file_path = await save_upload(file)
+    
+    # Process in background
+    background_tasks.add_task(
+        process_document_async,
+        file_path,
+        file.filename
+    )
+    
+    return {"message": "Upload successful, processing started"}
+
+async def process_document_async(file_path: str, filename: str):
+    """Background task for document processing"""
+    try:
+        # Extract text, create embeddings, store in vector DB
+        await document_processor.process_file(file_path, filename)
+        logger.info(f"Document processed successfully: {filename}")
+    except Exception as e:
+        logger.error(f"Document processing failed: {e}")
+```
+
+### **Caching Strategy**
+```python
+from functools import lru_cache
+import redis.asyncio as redis
+
+# In-memory cache for frequently used data
+@lru_cache(maxsize=1000)
+def get_embedding_cached(text: str) -> List[float]:
+    return embedding_service.encode(text)
+
+# Redis cache for complex queries
+async def get_cached_response(query_hash: str) -> Optional[QueryResponse]:
+    redis_client = await redis.from_url("redis://localhost")
+    cached = await redis_client.get(f"query:{query_hash}")
+    if cached:
+        return QueryResponse.model_validate_json(cached)
+    return None
+```
+
+## Security Patterns
+
+### **Input Validation**
+```python
+from pydantic import validator
+import re
+
+class QueryRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=1000)
+    
+    @validator('query')
+    def validate_query(cls, v):
+        # Prevent SQL injection attempts
+        if re.search(r'[;<>\'"]', v):
+            raise ValueError('Invalid characters in query')
+        return v.strip()
+```
+
+### **Rate Limiting**
+```python
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.post("/api/v1/chat/query")
+@limiter.limit("15/minute")  # Match Gemini API limits
+async def process_query(request: Request, query_data: QueryRequest):
+    return await rag_service.process_query(query_data.query)
+```
+

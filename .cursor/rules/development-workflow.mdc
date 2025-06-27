@@ -1,0 +1,119 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Workflow Rules
+
+## Startup Commands
+
+### System Startup
+Use [start.sh](mdc:start.sh) for full system startup:
+```bash
+./start.sh  # Starts both backend (port 8002) and frontend (port 5174)
+```
+
+### Individual Services
+- **Backend only**: `cd backend && fastapi dev app/main.py`
+- **Frontend only**: `cd frontend && npm run dev`
+
+## Development Environment
+
+### Required Ports
+- **Backend API**: 8002 (FastAPI + Uvicorn)
+- **Frontend**: 5174 (Vite dev server)
+- **API Docs**: http://localhost:8002/docs
+
+### Environment Files
+- **Backend Config**: [backend/app/core/config.py](mdc:backend/app/core/config.py)
+- **Environment Variables**: Set API keys for Gemini, OpenAI, Pinecone
+
+## Memory Bank Workflow
+
+### Mandatory Updates
+After ANY significant change, update memory bank:
+1. **Progress**: [memory-bank/progress.md](mdc:memory-bank/progress.md) - What's completed/remaining
+2. **Active Context**: [memory-bank/activeContext.md](mdc:memory-bank/activeContext.md) - Current focus
+3. **System Patterns**: [memory-bank/systemPatterns.md](mdc:memory-bank/systemPatterns.md) - Architecture decisions
+
+### Update Triggers
+- New feature implementation
+- Bug fixes (especially critical ones)
+- Architecture changes
+- Technology additions/updates
+- When user says "update memory bank"
+
+## Testing Protocol
+
+### Critical Tests Before Deployment
+1. **Document Upload Test**
+   - Upload each format: PDF, DOCX, PPTX, TXT
+   - Verify successful processing and embedding
+   - Check document library shows new files
+
+2. **Embedding Consistency Test**
+   - Upload document with current API status
+   - Note embedding model used (check logs)
+   - Query document with same model
+   - Verify document retrieval success
+
+3. **Cross-Model Compatibility Test**
+   - Test queries when stored docs use different embedding models
+   - Verify system auto-detects and adapts
+   - Ensure no dimension mismatch errors
+
+### Log Monitoring
+Watch for critical patterns:
+- `❌ Dimension mismatch` - Embedding inconsistency
+- `Resource has been exhausted` - API quota issues
+- `ChromaDB search failed` - Vector store problems
+- `No relevant documents found` - Retrieval failures
+
+## Code Quality Standards
+
+### FastAPI Patterns ([Context7 Verified](mdc:backend/app))
+```python
+# Correct async route
+@app.get("/endpoint")
+async def get_data():
+    result = await async_operation()
+    return result
+
+# Correct Pydantic v2 model
+class DataModel(BaseModel):
+    field: str = Field(..., description="Description")
+```
+
+### Error Handling Pattern
+```python
+try:
+    primary_result = await primary_service()
+    return primary_result
+except Exception as e:
+    logger.warning(f"Primary failed: {e}")
+    try:
+        fallback_result = await fallback_service()
+        return fallback_result
+    except Exception as e2:
+        logger.error(f"All services failed: {e2}")
+        return emergency_fallback()
+```
+
+## Debugging Common Issues
+
+### "General knowledge" responses instead of document content
+1. Check embedding dimension logs
+2. Verify document was successfully stored
+3. Test with compatible embedding model
+4. Check vector store contains documents
+
+### Document upload failures
+1. Check file format support in [document_processor.py](mdc:backend/app/services/document_processor.py)
+2. Verify file size limits
+3. Check storage space and permissions
+
+### API quota exhaustion
+1. Monitor Gemini API usage (15 RPM limit)
+2. System should auto-fallback to Sentence Transformers
+3. Consider implementing request queuing
+

@@ -1,0 +1,78 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# RAG System Architecture Rules
+
+## System Overview
+Enterprise Document Intelligence System with React frontend + FastAPI backend.
+
+### Core Components
+
+#### 1. Backend Structure ([backend/app/](mdc:backend/app))
+- **FastAPI Application**: [main.py](mdc:backend/app/main.py) - Entry point
+- **API Routes**: [api/routes/](mdc:backend/app/api/routes) - Endpoint handlers
+- **Services**: [services/](mdc:backend/app/services) - Business logic
+- **Models**: [models.py](mdc:backend/app/models.py) - Database models
+
+#### 2. Key Services
+- **Document Processing**: [document_processor.py](mdc:backend/app/services/document_processor.py)
+- **Embeddings**: [embeddings.py](mdc:backend/app/services/embeddings.py) - Multi-provider embedding system
+- **Vector Store**: [vector_store.py](mdc:backend/app/services/vector_store.py) - ChromaDB + Pinecone
+- **Local RAG**: [local_rag_service.py](mdc:backend/app/services/local_rag_service.py) - Query processing
+
+#### 3. Frontend Structure ([frontend/src/](mdc:frontend/src))
+- **Main App**: [App.tsx](mdc:frontend/src/App.tsx)
+- **Components**: [components/](mdc:frontend/src/components) - Reusable UI components
+
+### Technology Stack Patterns
+
+#### Embedding Providers (Priority Order)
+1. **Primary**: Google Gemini (3072 dimensions)
+2. **Fallback**: Sentence Transformers (384 dimensions) 
+3. **Emergency**: Hash-based fallback
+
+#### Vector Storage (Fallback Chain)
+1. **Primary**: ChromaDB (persistent local storage)
+2. **Cloud**: Pinecone (production scalability)
+3. **Emergency**: In-memory storage
+
+#### Document Processing Flow
+1. Upload → [document_processor.py](mdc:backend/app/services/document_processor.py)
+2. Text Extraction → Multiple format support (PDF, DOCX, PPTX, TXT)
+3. Chunking → Intelligent text segmentation
+4. Embedding → [embeddings.py](mdc:backend/app/services/embeddings.py)
+5. Storage → [vector_store.py](mdc:backend/app/services/vector_store.py)
+
+#### Query Processing Flow
+1. Query → [local_rag_service.py](mdc:backend/app/services/local_rag_service.py)
+2. Embedding → Consistent with stored documents
+3. Vector Search → Similarity matching
+4. Context Retrieval → Document chunks
+5. LLM Generation → Turkish-aware responses
+
+### Critical Patterns
+
+#### Async/Await (Context7 Verified)
+Always use async patterns for I/O operations:
+```python
+# Correct
+await asyncio.to_thread(sync_operation)
+
+# Wrong
+sync_operation()
+```
+
+#### Error Handling Chain
+Always implement full fallback chains:
+- Primary provider fails → Secondary provider
+- Secondary fails → Local/emergency fallback
+- Log all failures with context
+
+#### Memory Bank Integration
+Update memory bank files after significant changes:
+- [progress.md](mdc:memory-bank/progress.md) - Development status
+- [activeContext.md](mdc:memory-bank/activeContext.md) - Current focus
+- [systemPatterns.md](mdc:memory-bank/systemPatterns.md) - Architecture decisions
+

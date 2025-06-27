@@ -1,0 +1,142 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Turkish Enterprise RAG Patterns
+
+## Turkish Language Optimization
+
+### **Domain-Specific Terminology** (from [embeddings.py](mdc:backend/app/services/embeddings.py))
+
+The system includes Turkish banking and enterprise vocabulary mapping:
+
+```python
+turkish_synonyms = {
+    # Banking & Financial Terms
+    'kart': ['kredi karti', 'banka karti', 'plastik kart'],
+    'musteri': ['muvekkil', 'alici', 'kullanici', 'musteriler'],
+    'mbs': ['musteri bilgi sistemi', 'kayit sistemi'],
+    
+    # Behavior & Service Terms  
+    'tavir': ['davranis', 'tutum', 'yaklasim', 'hal', 'davranisi', 'tutumu'],
+    'sikayet': ['sikayetci', 'problem', 'sorun', 'memnuniyetsizlik', 'sikayette'],
+    'personel': ['calisan', 'eleman', 'kisi', 'gorevli', 'personelinin'],
+    
+    # Courier & Operations
+    'kurye': ['kuryeci', 'teslim eden', 'dagitici', 'kurye personeli'],
+    'teslimat': ['teslim', 'dagitim', 'ulastirma'],
+    'gonderi': ['paket', 'kargo', 'sevkiyat'],
+}
+```
+
+### **Query Expansion for Turkish**
+System automatically expands queries with domain-specific synonyms:
+
+```python
+# Example: "kurye davranışı" expands to:
+# - "kurye davranışı" (original)
+# - "kuryeci tutumu" (synonyms applied)
+# - "teslim eden tavırı" (expanded variations)
+```
+
+## Enterprise Document Types
+
+### **Supported Formats** ([document_processor.py](mdc:backend/app/services/document_processor.py))
+- **PDF**: Procedure manuals, regulatory documents
+- **DOCX**: Policies, training materials  
+- **PPTX**: Presentations, training slides
+- **TXT**: Quick reference guides
+
+### **Banking & Financial Domain Focus**
+Based on current document library and user queries:
+- **Customer Operations**: Account management, card procedures
+- **Compliance Procedures**: Regulatory requirements, audit trails
+- **Service Standards**: Customer interaction protocols
+- **System Operations**: Technical procedures, troubleshooting
+
+## User Context Patterns
+
+### **Call Center Agent Workflows** (from [productContext.md](mdc:memory-bank/productContext.md))
+**Scenario**: Agent "Ayşe" with customer on phone
+```
+User Query: "kredi kartı iptali nasıl yapılır"
+System Response: 
+- Step-by-step cancellation process
+- Required customer verification steps
+- System commands/screens to use
+- Authorization requirements
+- Source: "Kredi Kartı İşlemleri Rehberi, Sayfa 23"
+```
+
+### **New Employee Learning** 
+**Scenario**: Employee "Mehmet" learning procedures
+```
+User Query: "müşteri numarası nedir ve nasıl bulunur"
+System Response:
+- Definition of customer number
+- Where to find it in systems
+- Different types of customer IDs
+- Usage examples
+- Source: "Müşteri Bilgi Sistemi Kullanım Kılavuzu"
+```
+
+### **Specialist Technical Queries**
+**Scenario**: Department specialist needing specific information
+```
+User Query: "şifre sıfırlama işlemi güvenlik protokolü"
+System Response:
+- Security verification steps
+- System access requirements
+- Audit trail requirements
+- Escalation procedures
+- Source: "Güvenlik İşlemleri Prosedürü, Bölüm 4.2"
+```
+
+## Response Quality Standards
+
+### **Turkish Language Quality**
+- **Formal Register**: Professional tone appropriate for business context
+- **Technical Accuracy**: Correct Turkish banking and technical terminology
+- **Clear Structure**: Numbered steps, bullet points for procedures
+- **Context Awareness**: Understanding of Turkish business culture
+
+### **Source Citation Format**
+```
+📄 Kaynak: "Doküman Adı, Sayfa X"
+🏢 Departman: "İnsan Kaynakları / Müşteri Hizmetleri"
+⏱️ Son Güncelleme: "15 Aralık 2024"
+🔐 Güvenlik Seviyesi: "Dahili Kullanım"
+```
+
+### **Confidence Scoring for Turkish**
+- **High (90%+)**: Exact procedure matches, clear source material
+- **Medium (70-89%)**: Related information, some interpretation needed
+- **Low (50-69%)**: General guidance, limited specific information
+- **Uncertain (<50%)**: Recommend consulting specialist or updated documentation
+
+## Enterprise Security Patterns
+
+### **Department-Based Access** ([models.py](mdc:backend/app/models.py))
+```python
+# Users have department assignments that filter document access
+user_departments = ["Müşteri Hizmetleri", "İnsan Kaynakları", "Bilgi İşlem"]
+document_categories = ["banking", "hr", "technical", "general"]
+```
+
+### **Audit Trail Requirements**
+Every query logged with:
+- **User ID**: Employee identification
+- **Department**: Access control verification
+- **Query Text**: What was asked
+- **Response Summary**: What was provided
+- **Source Documents**: Which documents were accessed
+- **Timestamp**: When the query occurred
+
+### **Compliance Features**
+- **Data Residency**: All processing within Turkey
+- **Encryption**: AES-256 for document storage
+- **Access Logging**: Complete audit trail
+- **Retention Policy**: Configurable document lifecycle
+- **Privacy Protection**: No personal data in logs
+

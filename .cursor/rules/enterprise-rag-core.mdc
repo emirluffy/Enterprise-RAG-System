@@ -1,0 +1,105 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Enterprise RAG System - Core Development Rules
+
+## Project Identity & Vision
+
+### **Product Mission** (from [productContext.md](mdc:memory-bank/productContext.md))
+Transform enterprise document libraries into conversational knowledge assistants that provide instant, accurate answers with source citations.
+
+**Target User Experience:**
+- **Before**: 15-45 minutes searching through PDFs
+- **After**: 30 seconds with structured answers and citations
+
+### **Core User Personas**
+1. **Call Center Agent "Ayşe"**: Needs instant procedures while on customer calls
+2. **New Employee "Mehmet"**: Learning complex regulations in digestible format  
+3. **Department Specialist**: Quick access to technical documentation
+
+## System Architecture (from [systemPatterns.md](mdc:memory-bank/systemPatterns.md))
+
+### **Technology Stack**
+- **Frontend**: React 18 + TypeScript + Tailwind CSS + Zustand
+- **Backend**: FastAPI + Python + PostgreSQL + pgvector
+- **AI**: Google Gemini 2.5 Flash-Lite Preview (3072-dim embeddings)
+- **Vector Store**: ChromaDB (dev) + Pinecone (production)
+
+### **Critical File Structure**
+```
+├── backend/app/
+│   ├── [main.py](mdc:backend/app/main.py) - FastAPI entry point
+│   ├── api/routes/ - API endpoints
+│   ├── services/ - Business logic layer
+│   │   ├── [embeddings.py](mdc:backend/app/services/embeddings.py) - Multi-provider embeddings
+│   │   ├── [vector_store.py](mdc:backend/app/services/vector_store.py) - ChromaDB/Pinecone
+│   │   └── [local_rag_service.py](mdc:backend/app/services/local_rag_service.py) - Query processing
+├── frontend/src/
+│   ├── [App.tsx](mdc:frontend/src/App.tsx) - Main application
+│   └── components/ - React components
+├── memory-bank/ - Project intelligence (MANDATORY to maintain)
+└── [start.sh](mdc:start.sh) - System startup (ALWAYS use this)
+```
+
+## Development Workflow Rules
+
+### **🚨 MANDATORY: Server Management**
+**NEVER start servers manually - ALWAYS use [start.sh](mdc:start.sh)**
+
+```bash
+# ✅ CORRECT
+./start.sh  # Starts backend (8002) + frontend (5174) with proper cleanup
+
+# ❌ FORBIDDEN
+cd backend && python main.py     # Missing process cleanup
+cd frontend && npm run dev       # Port conflicts possible
+```
+
+### **Memory Bank Maintenance (MANDATORY)**
+After ANY significant change, update:
+1. **[progress.md](mdc:memory-bank/progress.md)** - Current development status
+2. **[activeContext.md](mdc:memory-bank/activeContext.md)** - Focus area and next steps
+3. **[systemPatterns.md](mdc:memory-bank/systemPatterns.md)** - Architecture changes
+
+### **Context7 + Memory Bank Enforcement**
+Before any code changes:
+1. 🛑 STOP - Verify technology with Context7
+2. 📚 Check memory bank for existing patterns
+3. ✅ Use verified implementations only
+4. 📝 Update memory bank after changes
+
+## Current System Status (from [progress.md](mdc:memory-bank/progress.md))
+
+### **✅ OPERATIONAL (85% Complete)**
+- **Backend**: FastAPI + Google Gemini + RAG Pipeline
+- **Frontend**: React + TypeScript UI
+- **Document Processing**: Multi-format support (PDF, DOCX, PPTX, TXT)
+- **Vector Search**: ChromaDB with 3501+ document chunks
+- **Q&A System**: Turkish language support with source citations
+
+### **🔄 CURRENT ISSUE: Embedding Dimension Mismatch**
+**Problem**: Documents stored with 384-dim embeddings (Sentence Transformers) but queries use 3072-dim (Gemini)
+**Status**: Dimension compatibility fix applied to [vector_store.py](mdc:backend/app/services/vector_store.py)
+
+## Product Requirements Alignment
+
+### **Success Metrics** (from [productContext.md](mdc:memory-bank/productContext.md))
+- **Speed**: Sub-3-second response times ✅
+- **Accuracy**: >90% accuracy rate (target)
+- **Trust**: Source citations with confidence levels ✅
+- **Scale**: Enterprise-grade security and performance
+
+### **Core Features Implementation**
+1. **Document Upload**: ✅ Multi-format processing
+2. **Conversational Q&A**: ✅ Natural language queries in Turkish
+3. **Source Citations**: ✅ Document attribution for compliance
+4. **Department Access**: ✅ Role-based security
+5. **Analytics**: ✅ Query logging for insights
+
+### **User Experience Standards**
+- **Conversational First**: Natural language, not keyword search
+- **Trust Through Transparency**: Always show sources and confidence
+- **Enterprise Grade**: Security, audit trails, compliance ready
+

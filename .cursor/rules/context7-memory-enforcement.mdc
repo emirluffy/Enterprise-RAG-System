@@ -1,0 +1,173 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Context7 + Memory Bank MANDATORY Enforcement
+
+## 🚨 CRITICAL: NO CODE WITHOUT VERIFICATION
+
+### **MANDATORY ORDER (NO EXCEPTIONS)**
+Before ANY code changes:
+
+1. **🛑 STOP** - Do not write any code yet
+2. **🔍 IDENTIFY** - What technology/library will be used?
+3. **📞 VERIFY** - Call Context7 resolve-library-id + get-library-docs
+4. **✅ CONFIRM** - "Context7 verified for [technology]"
+5. **💻 IMPLEMENT** - Use ONLY verified patterns
+6. **📝 UPDATE** - Memory bank files
+7. **✅ CONFIRM** - "Memory bank updated for [change]"
+
+### **Context7 Verification Rules**
+```bash
+# ALWAYS call these before coding:
+resolve-library-id "technology-name"
+get-library-docs "/verified-id"
+```
+
+**Technologies requiring verification:**
+- Google Gemini API patterns
+- FastAPI async/await implementations
+- Pydantic v2 models (NOT v1 syntax)
+- React 18 concurrent features
+- Pinecone serverless integration
+- ChromaDB operations
+
+### **Memory Bank Updates (MANDATORY)**
+After EVERY significant change, update:
+
+#### **Required Files:**
+1. **[progress.md](mdc:memory-bank/progress.md)** - Development status and completion
+2. **[activeContext.md](mdc:memory-bank/activeContext.md)** - Current focus and next steps
+3. **[systemPatterns.md](mdc:memory-bank/systemPatterns.md)** - Architecture changes
+
+#### **Update Triggers:**
+- New feature implementation
+- Bug fixes (especially critical ones like embedding dimension mismatch)
+- Architecture changes or technology updates
+- When user explicitly says "update memory bank"
+
+## Verified Technology Stack (Context7 ✅)
+
+### **LLM Stack**
+- **Primary**: Google Gemini 2.5 Flash-Lite Preview
+- **Model**: `gemini-2.5-flash-lite-preview-06-17`
+- **Embeddings**: `gemini-embedding-exp-03-07` (3072 dimensions)
+- **Limits**: 15 RPM, 1000 RPD, 250K TPM
+- **Pattern**: async/await for all API calls
+- **Fallback**: Sentence Transformers (384 dimensions, LOCAL/FREE)
+
+### **Backend Stack**
+- **Framework**: FastAPI 0.115.12+ (latest stable)
+- **Language**: Python 3.11+
+- **Validation**: Pydantic v2 (use `.model_validate()` NOT `.parse_obj()`)
+- **Database**: PostgreSQL 15 + pgvector
+- **Vector DB**: ChromaDB (dev) + Pinecone (production)
+
+### **Frontend Stack**
+- **Framework**: React 18.2+ with concurrent features
+- **Language**: TypeScript 5.0+ (strict mode)
+- **Styling**: Tailwind CSS 3.3+ utility-first
+- **State**: Zustand 4.4+ (lightweight)
+- **Build**: Vite 4.4+ (fast dev server)
+
+## Critical Implementation Patterns
+
+### **Async/Await (Context7 Verified)**
+```python
+# ✅ CORRECT
+async def get_items():
+    results = await some_async_database_call()
+    return results
+
+# ❌ WRONG - Blocking in async function
+async def bad_example():
+    return blocking_sync_call()  # Blocks entire server
+```
+
+### **Pydantic v2 Models (Context7 Verified)**
+```python
+# ✅ CORRECT - Pydantic v2 syntax
+from pydantic import BaseModel, Field
+
+class Item(BaseModel):
+    name: str = Field(..., description="Item name")
+    price: float = Field(..., gt=0, description="Item price")
+
+# Use .model_validate() not .parse_obj()
+item = Item.model_validate(data)
+
+# ❌ WRONG - Pydantic v1 syntax
+item = Item.parse_obj(data)  # Deprecated
+```
+
+### **Google Gemini Integration (Context7 Verified)**
+```python
+from google import genai
+from google.genai import types
+
+# Initialize client
+client = genai.Client(api_key='GEMINI_API_KEY')
+
+# Generate content with configuration
+response = client.models.generate_content(
+    model='gemini-2.5-flash-lite-preview-06-17',
+    contents='Your query here',
+    config=types.GenerateContentConfig(
+        system_instruction='Your system prompt',
+        max_output_tokens=1000,
+        temperature=0.3,
+    ),
+)
+```
+
+## Anti-Patterns (FORBIDDEN)
+
+### **❌ Legacy Patterns**
+- Pydantic v1 syntax (use v2 `.model_validate()`)
+- Synchronous database calls in async routes
+- Hardcoded configuration values
+- Blocking operations in async functions
+- Class components in React (use functional)
+- Direct DOM manipulation in React
+
+### **❌ Non-Verified Technologies**
+- Using APIs without Context7 verification
+- Implementing patterns not confirmed as current
+- Mixing deprecated and modern patterns
+- Skipping version compatibility checks
+
+## Emergency Procedures
+
+### **API Rate Limit Exceeded**
+From .cursorrules emergency procedures:
+1. Switch to fallback LLM (Sentence Transformers)
+2. Implement exponential backoff
+3. Add user notification of temporary limitations
+4. Monitor and upgrade to paid tier if needed
+
+### **Development Environment Issues**
+1. Use `./start.sh` for system startup (MANDATORY)
+2. Check environment variables in `.env`
+3. Verify API keys and permissions
+4. Consult memory bank for known issues
+
+## Success Indicators
+
+### **Development Velocity**
+- Sub-3 second development reload times
+- Zero-config environment setup
+- Automated testing passing
+- Clean code quality checks
+
+### **Implementation Quality**
+- TypeScript strict mode compliance
+- 100% API endpoint documentation
+- Comprehensive error handling
+- Performance within target metrics
+
+**Last Updated**: December 2024
+**Context7 Status**: All technologies verified ✅
+**Memory Bank Status**: Complete and current ✅
+**Enforcement Status**: ACTIVE AND MANDATORY ✅
+

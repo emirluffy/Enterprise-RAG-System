@@ -1,0 +1,112 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Critical Bug Prevention - Embedding Dimension Consistency
+
+## 🚨 THE MOST CRITICAL BUG IN RAG SYSTEMS
+
+### **Historical Bug: December 2024**
+**Symptom**: System returns "general knowledge" instead of finding uploaded documents
+**Root Cause**: Embedding dimension mismatch between storage and queries
+
+### **The Technical Problem**
+```
+Document Storage: Sentence Transformers → 384 dimensions
+Query Processing: Google Gemini → 3072 dimensions
+Vector Search: ChromaDB → "dimension mismatch" error
+Result: No documents found → fallback to general knowledge
+```
+
+### **Log Patterns to Watch For**
+```
+❌ ChromaDB search failed: Embedding dimension 3072 does not match collection dimensionality 384
+🔍 Query dimension: 3072
+🎯 Stored dimension: 384
+✅ Found 0 similar documents (threshold: 0.20)
+No relevant documents found, using general knowledge
+```
+
+## Mandatory Prevention Code
+
+### **1. Vector Store Dimension Check** ([vector_store.py](mdc:backend/app/services/vector_store.py))
+**ALWAYS check dimensions before ChromaDB search:**
+
+```python
+# CRITICAL: Check embedding dimensions compatibility BEFORE search
+sample_results = self.chroma_collection.get(limit=1, include=["embeddings"])
+if sample_results and sample_results.get("embeddings") and sample_results["embeddings"][0]:
+    stored_dimension = len(sample_results["embeddings"][0])
+    query_dimension = len(query_embedding)
+    
+    if stored_dimension != query_dimension:
+        print(f"❌ Dimension mismatch: stored={stored_dimension}, query={query_dimension}")
+        print(f"🔄 Falling back to compatible method...")
+        # Skip ChromaDB search and use compatible embedding model
+        raise Exception(f"Embedding dimension mismatch")
+```
+
+### **2. Embedding Service Consistency** ([embeddings.py](mdc:backend/app/services/embeddings.py))
+**Intelligent model selection based on stored documents:**
+
+```python
+# Check stored document dimensions before query processing
+if majority_dimension == 384 and hasattr(self, 'sentence_transformer'):
+    print("🔄 FALLBACK: Using majority dimension (Sentence Transformers)")
+    result = await self._create_sentence_transformer_embeddings([text])
+elif majority_dimension in [1536, 3072] and hasattr(self, 'gemini_client'):
+    print("🔄 FALLBACK: Using majority dimension (Gemini)")
+    result = await self._create_gemini_embeddings([text])
+```
+
+## Detection and Recovery Protocol
+
+### **Step 1: Immediate Detection**
+Monitor logs for these patterns:
+- `❌ Dimension mismatch`
+- `ChromaDB search failed`
+- `No relevant documents found, using general knowledge`
+
+### **Step 2: Emergency Diagnosis**
+```python
+# Quick dimension check
+sample_results = collection.get(limit=3, include=["embeddings"])
+for i, embedding in enumerate(sample_results["embeddings"]):
+    print(f"Document {i+1}: {len(embedding)} dimensions")
+```
+
+### **Step 3: Recovery Options**
+1. **Auto-adapt**: System detects dimensions and forces compatible embedding model
+2. **Re-process**: Re-upload documents with consistent embedding model
+3. **Hybrid**: Implement cross-dimensional search with compatibility layer
+
+## Testing Protocol
+
+### **Before Every Deployment**
+1. **Upload test document** → Note embedding model used in logs
+2. **Query the document** → Verify same embedding model used
+3. **Check retrieval success** → Ensure document content returned
+4. **Test cross-model queries** → Verify auto-adaptation works
+
+### **Monitoring in Production**
+- Set up alerts for "dimension mismatch" errors
+- Track query success rate (should be >90%)
+- Monitor embedding model usage distribution
+- Log embedding dimensions for all storage and query operations
+
+## Context from Recent Fix
+
+### **What We Fixed** (December 2024)
+- Added dimension compatibility check in [vector_store.py](mdc:backend/app/services/vector_store.py)
+- Enhanced intelligent routing in [embeddings.py](mdc:backend/app/services/embeddings.py)
+- System now auto-detects stored dimensions and adapts query model
+
+### **Why This Bug is Critical**
+- **Silent Failure**: System appears to work but gives wrong answers
+- **User Trust**: Users lose confidence when system can't find uploaded documents
+- **Business Impact**: Defeats the entire purpose of the RAG system
+
+### **Prevention is MANDATORY**
+This bug prevention must be implemented in EVERY RAG system. No exceptions.
+
