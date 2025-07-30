@@ -1,17 +1,29 @@
 from fastapi import APIRouter
-
-from app.api.routes import items, login, private, users, utils, documents, chat, local_rag
-from app.core.config import settings
+from .routes import (
+    auth, documents, chat, conversations, websocket, realtime_collaboration
+)
 
 api_router = APIRouter()
-api_router.include_router(login.router)
-api_router.include_router(users.router)
-api_router.include_router(utils.router)
-api_router.include_router(items.router)
-api_router.include_router(documents.router)
-api_router.include_router(chat.router)
-api_router.include_router(local_rag.router)
 
+# Include core route modules
+api_router.include_router(auth.router, prefix="/auth", tags=["authentication"])
+api_router.include_router(documents.router, prefix="/documents", tags=["documents"])
+api_router.include_router(chat.router, prefix="/chat", tags=["chat"])
+api_router.include_router(conversations.router, prefix="/conversations", tags=["conversations"])
+api_router.include_router(realtime_collaboration.router, prefix="/collaboration", tags=["real-time-collaboration"])
+# WebSocket router is included in the main app factory for root access
 
-if settings.ENVIRONMENT == "local":
-    api_router.include_router(private.router)
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {
+        "status": "healthy",
+        "message": "RAG System API is running",
+        "features": [
+            "Document Processing & RAG",
+            "Real-time Chat via WebSockets",
+            "User Authentication",
+            "Conversation Management",
+            "Real-time Collaboration"
+        ]
+    }

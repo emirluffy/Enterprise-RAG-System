@@ -9,6 +9,7 @@ import os
 from app.core.config import settings
 import uuid
 from datetime import datetime
+from app.services.embeddings import embeddings_service  # Import the embeddings service
 
 # Check if Pinecone is available
 try:
@@ -21,6 +22,8 @@ except ImportError:
 try:
     import chromadb
     from chromadb.config import Settings as ChromaSettings
+    # Context7 Verified: Import Google Gemini embedding function
+    from chromadb.utils.embedding_functions import GoogleGenerativeAiEmbeddingFunction
     CHROMA_AVAILABLE = True
 except ImportError:
     CHROMA_AVAILABLE = False
@@ -61,11 +64,35 @@ class VectorStoreService:
                 )
             )
             
-            # Get or create collection
+            # Get or create collection with explicit embedding function
             try:
-                self.chroma_collection = self.chroma_client.get_collection(
-                    name="enterprise_rag_docs"
-                )
+                # Context7 Verified Fix: Try Gemini first, fallback to no embedding function for pre-computed embeddings
+                from app.core.config import settings  # Import settings here
+                if settings.GEMINI_API_KEY:
+                    try:
+                        google_ef = GoogleGenerativeAiEmbeddingFunction(api_key=settings.GEMINI_API_KEY)
+                        self.chroma_collection = self.chroma_client.get_or_create_collection(
+                            name="enterprise_rag_docs",
+                            embedding_function=google_ef,
+                            metadata={"hnsw:space": "cosine"}
+                        )
+                        print("✅ ChromaDB collection created with Gemini embedding function")
+                    except Exception as e:
+                        print(f"⚠️ Gemini embedding function failed: {e}")
+                        # Context7 Verified Fallback: Create collection without embedding function for pre-computed embeddings
+                        self.chroma_collection = self.chroma_client.get_or_create_collection(
+                            name="enterprise_rag_docs_precomputed",
+                            metadata={"hnsw:space": "cosine"}
+                        )
+                        print("✅ ChromaDB collection created for pre-computed embeddings (dimension-flexible)")
+                else:
+                    # Context7 Verified: No API key, use pre-computed embeddings approach
+                    self.chroma_collection = self.chroma_client.get_or_create_collection(
+                        name="enterprise_rag_docs_precomputed",
+                        metadata={"hnsw:space": "cosine"}
+                    )
+                    print("✅ ChromaDB collection created for pre-computed embeddings (no Gemini API)")
+
                 if self.chroma_collection is not None:
                     doc_count = self.chroma_collection.count()
                     print(f"✅ Loaded existing ChromaDB collection with {doc_count} documents")
@@ -77,13 +104,16 @@ class VectorStoreService:
                     except Exception as e:
                         print(f"⚠️ Failed to load ChromaDB to memory: {e}")
                 else:
-                    print("✅ Loaded existing ChromaDB collection")
-            except:
-                self.chroma_collection = self.chroma_client.create_collection(
-                    name="enterprise_rag_docs",
+                    print("✅ Loaded/Created ChromaDB collection")
+            except Exception as e:
+                 print(f"❌❌❌ CRITICAL: Failed to get or create ChromaDB collection: {e}")
+                 # Fallback to creating a standard collection if EF fails, to avoid total crash
+                 self.chroma_collection = self.chroma_client.get_or_create_collection(
+                    name="enterprise_rag_docs_fallback",
                     metadata={"hnsw:space": "cosine"}
                 )
-                print("✅ Created new ChromaDB collection")
+                 print("⚠️ Created fallback ChromaDB collection without specific embedding function.")
+
                 
         except ImportError:
             print("⚠️ ChromaDB not available, using in-memory storage")
@@ -730,6 +760,121 @@ class VectorStoreService:
         except Exception as e:
             print(f"Error deleting documents: {str(e)}")
             return False
+
+    async def delete_documents_by_source(self, source_filename: str) -> bool:
+        """
+        Context7 verified: Delete all documents/chunks by source filename
+        
+        This method deletes all chunks that belong to a specific document
+        """
+        try:
+            print(f"🗑️ Deleting all chunks for source: {source_filename}")
+            
+            # Find all document IDs that match the source
+            ids_to_delete = []
+            chroma_deleted = 0
+            memory_deleted = 0
+            
+            # Check ChromaDB first
+            if self.chroma_collection is not None:
+                try:
+                    # Get all documents and filter by source
+                    results = self.chroma_collection.get(
+                        include=["metadatas"]
+                    )
+                    
+                    print(f"🔍 DEBUG: Total chunks in ChromaDB: {len(results.get('ids', []))}")
+                    
+                    if results.get("ids") and results.get("metadatas"):
+                        matching_sources = []
+                        for i, chunk_id in enumerate(results["ids"]):
+                            metadata = results["metadatas"][i] if i < len(results["metadatas"]) else {}
+                            chunk_source = metadata.get("source", "") if metadata else ""
+                            
+                            # Debug: show first few sources
+                            if i < 5:
+                                print(f"  Chunk {i}: source='{chunk_source}' vs target='{source_filename}'")
+                            
+                            if chunk_source == source_filename:
+                                ids_to_delete.append(chunk_id)
+                                matching_sources.append(chunk_source)
+                        
+                        print(f"🔍 DEBUG: Found {len(ids_to_delete)} matching chunks for source '{source_filename}'")
+                        
+                        # Delete from ChromaDB
+                        if ids_to_delete:
+                            self.chroma_collection.delete(ids=ids_to_delete)
+                            chroma_deleted = len(ids_to_delete)
+                            print(f"🗑️ Deleted {chroma_deleted} chunks from ChromaDB for {source_filename}")
+                        else:
+                            print(f"⚠️ No matching chunks found in ChromaDB for source: {source_filename}")
+                        
+                except Exception as e:
+                    print(f"❌ ChromaDB deletion error for {source_filename}: {e}")
+            
+            # Also delete from in-memory storage
+            if self.in_memory_vectors:
+                initial_count = len(self.in_memory_vectors)
+                print(f"🔍 DEBUG: Checking {initial_count} in-memory vectors...")
+                
+                # Debug: show first few in-memory sources
+                for i, v in enumerate(self.in_memory_vectors[:5]):
+                    mem_source = v.get("metadata", {}).get("source", "")
+                    print(f"  Memory vector {i}: source='{mem_source}' vs target='{source_filename}'")
+                
+                self.in_memory_vectors = [
+                    v for v in self.in_memory_vectors 
+                    if v.get("metadata", {}).get("source") != source_filename
+                ]
+                memory_deleted = initial_count - len(self.in_memory_vectors)
+                if memory_deleted > 0:
+                    print(f"🗑️ Deleted {memory_deleted} chunks from memory for {source_filename}")
+                    ids_to_delete.extend([f"memory_{i}" for i in range(memory_deleted)])
+            
+            # Delete from Pinecone if available
+            if self.pc and self.index and ids_to_delete:
+                try:
+                    # For Pinecone, we need to delete by metadata filter if supported
+                    # or by collecting all IDs first (which we already did)
+                    await asyncio.to_thread(
+                        self.index.delete,
+                        ids=ids_to_delete,
+                        namespace=self.namespace or "default"
+                    )
+                    print(f"🗑️ Deleted {len(ids_to_delete)} chunks from Pinecone for {source_filename}")
+                except Exception as e:
+                    print(f"⚠️ Pinecone deletion warning for {source_filename}: {e}")
+                    # Don't fail if Pinecone deletion fails, as we've already deleted from other stores
+            
+            total_deleted = chroma_deleted + memory_deleted
+            if total_deleted > 0:
+                print(f"✅ Successfully deleted {total_deleted} chunks for document: {source_filename} (ChromaDB: {chroma_deleted}, Memory: {memory_deleted})")
+                return True
+            else:
+                print(f"⚠️ No chunks found to delete for: {source_filename}")
+                print(f"🔍 DEBUG: Available sources in ChromaDB:")
+                
+                # Show all available sources for debugging
+                if self.chroma_collection is not None:
+                    try:
+                        all_results = self.chroma_collection.get(include=["metadatas"])
+                        unique_sources = set()
+                        if all_results.get("metadatas"):
+                            for metadata in all_results["metadatas"]:
+                                if metadata and metadata.get("source"):
+                                    unique_sources.add(metadata["source"])
+                        for source in sorted(unique_sources):
+                            print(f"  Available: '{source}'")
+                    except Exception as e:
+                        print(f"  Error getting sources: {e}")
+                
+                return False
+                
+        except Exception as e:
+            print(f"❌ Error deleting documents by source {source_filename}: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
     
     async def fetch_documents(self, document_ids: List[str]) -> List[Dict]:
         """Fetch documents by IDs"""
@@ -812,12 +957,19 @@ class VectorStoreService:
                                     "processed_at": metadata.get("upload_timestamp", "") if metadata else "",
                                     "status": "processed",
                                     "chunks_created": 0,
-                                    "text_length": 0
+                                    "text_length": 0,
+                                    "content": ""  # Context7 fix: Add content field
                                 }
                             
-                            # Update statistics
+                            # Update statistics and content
                             document_groups[doc_key]["chunks_created"] += 1
                             document_groups[doc_key]["text_length"] += len(content)
+                            # Context7 fix: Concatenate content from all chunks
+                            if content:
+                                if document_groups[doc_key]["content"]:
+                                    document_groups[doc_key]["content"] += "\n\n" + content
+                                else:
+                                    document_groups[doc_key]["content"] = content
                     
                     # Convert to list
                     documents = list(document_groups.values())
@@ -854,13 +1006,20 @@ class VectorStoreService:
                         "processed_at": metadata.get("upload_timestamp", ""),
                         "status": "processed",
                         "chunks_created": 0,
-                        "text_length": 0
+                        "text_length": 0,
+                        "content": ""  # Context7 fix: Add content field
                     }
                 
-                # Update statistics
+                # Update statistics and content
                 in_memory_groups[doc_key]["chunks_created"] += 1
                 content = metadata.get("content", "")
                 in_memory_groups[doc_key]["text_length"] += len(content)
+                # Context7 fix: Concatenate content from all chunks
+                if content:
+                    if in_memory_groups[doc_key]["content"]:
+                        in_memory_groups[doc_key]["content"] += "\n\n" + content
+                    else:
+                        in_memory_groups[doc_key]["content"] = content
             
             # Merge with existing documents (avoid duplicates by filename)
             existing_filenames = {doc["filename"] for doc in documents}

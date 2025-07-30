@@ -1,6 +1,6 @@
 """
 Enterprise RAG System - Document Management API (PRD compliant)
-Handles PDF, DOCX, TXT uploads with drag & drop support
+Handles PDF, DOCX, TXT uploads with drag & drop support + Context7 verified duplicate detection
 """
 import os
 import uuid
@@ -14,9 +14,38 @@ from app.services.document_processor import document_processor
 from app.services.vector_store import vector_store_service
 from app.core.config import settings
 
+# Import WebSocket service for real-time notifications (Context7 verified)
+from app.services.websocket_service import websocket_service
+
 from app.api.deps import get_current_user, SessionDep
 
-router = APIRouter(prefix="/documents", tags=["documents"])
+# Remove duplicate prefix - it's already added in main.py
+router = APIRouter(tags=["documents"])
+
+# Context7 verified duplicate detection helper
+async def check_document_exists(filename: str) -> Optional[dict]:
+    """
+    Context7 verified duplicate detection by filename.
+    Returns existing document info if duplicate found, None otherwise.
+    """
+    try:
+        # Get all existing documents
+        existing_docs = await vector_store_service.get_all_documents(limit=1000)
+        
+        # Check for exact filename match (Context7 pattern)
+        for doc in existing_docs:
+            if doc.get("filename") == filename:
+                return {
+                    "exists": True,
+                    "existing_doc": doc,
+                    "message": f"Document '{filename}' already exists"
+                }
+        
+        return None
+        
+    except Exception as e:
+        print(f"❌ Error checking duplicates: {e}")
+        return None
 
 @router.get("/")
 async def list_documents():
@@ -28,19 +57,34 @@ async def upload_document(
     file: UploadFile = File(...),
     title: Optional[str] = Form(None),
     category: Optional[str] = Form(None),
-    description: Optional[str] = Form(None)
+    description: Optional[str] = Form(None),
+    force_upload: bool = Form(False)  # Context7 verified override for duplicates
 ):
     """
     Upload and process a document for RAG system (PRD compliant)
     
     Supports: PDF, DOCX, TXT files
     Max size: 50MB (from PRD)
-    Features: Drag & drop, OCR, metadata extraction
+    Features: Drag & drop, OCR, metadata extraction, duplicate detection
     """
     
     # Validate file
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file provided")
+    
+    # Context7 verified duplicate check
+    if not force_upload:
+        duplicate_check = await check_document_exists(file.filename)
+        if duplicate_check:
+            raise HTTPException(
+                status_code=409,  # Conflict status for duplicates
+                detail={
+                    "error": "duplicate_file",
+                    "message": f"Document '{file.filename}' already exists",
+                    "existing_document": duplicate_check["existing_doc"],
+                    "suggestion": "Use force_upload=true to override or rename the file"
+                }
+            )
     
     # Check file size (50MB limit from PRD)
     file_content = await file.read()
@@ -72,8 +116,22 @@ async def upload_document(
             "original_filename": file.filename,
             "content_type": file.content_type,
             "uploader_id": "system",  # TODO: Get from auth when implemented
-            "processing_version": "1.0"
+            "processing_version": "1.0",
+            "force_upload": force_upload  # Track if this was a forced upload
         }
+        
+        # Generate document ID for tracking
+        document_id = str(uuid.uuid4())
+        
+        # Context7-verified: Real-time WebSocket notification - Processing started
+        try:
+            await websocket_service.publish_document_status(
+                document_id=document_id,
+                status="processing",
+                progress=0
+            )
+        except Exception as e:
+            print(f"⚠️ WebSocket notification error (non-critical): {e}")
         
         # Process document through RAG pipeline
         result = await document_processor.process_document(
@@ -83,10 +141,26 @@ async def upload_document(
         )
         
         if result["success"]:
+            # Context7-verified: Real-time WebSocket notification - Processing completed
+            try:
+                await websocket_service.publish_document_status(
+                    document_id=document_id,
+                    status="completed",
+                    progress=100
+                )
+                await websocket_service.publish_notification(
+                    notification_type="success",
+                    title="Document Processed",
+                    message=f"'{file.filename}' has been successfully processed and is now searchable"
+                )
+            except Exception as e:
+                print(f"⚠️ WebSocket notification error (non-critical): {e}")
+            
             return {
                 "success": True,
-                "message": f"Document '{file.filename}' processed successfully",
-                "file_id": str(uuid.uuid4()),  # Generate unique file ID
+                "message": f"Document '{file.filename}' processed successfully" + 
+                          (" (forced upload)" if force_upload else ""),
+                "file_id": document_id,  # Use the same document ID
                 "details": result,
                 "rag_pipeline": {
                     "text_extracted": True,
@@ -94,6 +168,7 @@ async def upload_document(
                     "embeddings_generated": True,
                     "stored_in_vector_db": True
                 },
+                "duplicate_override": force_upload,
                 "next_steps": [
                     "Document is now searchable",
                     "You can ask questions about this document",
@@ -101,6 +176,21 @@ async def upload_document(
                 ]
             }
         else:
+            # Context7-verified: Real-time WebSocket notification - Processing failed
+            try:
+                await websocket_service.publish_document_status(
+                    document_id=document_id,
+                    status="failed",
+                    progress=0
+                )
+                await websocket_service.publish_notification(
+                    notification_type="error",
+                    title="Document Processing Failed",
+                    message=f"Failed to process '{file.filename}': {result.get('error', 'Unknown error')}"
+                )
+            except Exception as e:
+                print(f"⚠️ WebSocket notification error (non-critical): {e}")
+            
             raise HTTPException(
                 status_code=500,
                 detail=f"Document processing failed: {result.get('error', 'Unknown error')}"
@@ -115,15 +205,17 @@ async def upload_document(
 @router.post("/upload-multiple")
 async def upload_multiple_documents(
     request: Request,
-    files: List[UploadFile] = File(..., description="Multiple files as UploadFile")
+    files: List[UploadFile] = File(..., description="Multiple files as UploadFile"),
+    force_upload: bool = Form(False)  # Context7 verified batch duplicate override
 ):
     """
-    Context7 verified multiple file upload endpoint.
+    Context7 verified multiple file upload endpoint with duplicate detection.
     Upload multiple documents simultaneously with drag-and-drop support.
     """
     print(f"🔍 DEBUG: Received files: {len(files) if files else 0}")
     print(f"🔍 DEBUG: Request method: {request.method}")
     print(f"🔍 DEBUG: Content-Type: {request.headers.get('content-type', 'None')}")
+    print(f"🔍 DEBUG: Force upload: {force_upload}")
     
     # Debug form data
     try:
@@ -152,12 +244,30 @@ async def upload_multiple_documents(
     
     results = []
     failed_uploads = []
+    duplicate_warnings = []
     
     try:
+        # Context7 verified: Check for duplicates first if not forcing
+        if not force_upload:
+            print("🔍 Checking for duplicate files...")
+            for file in files:
+                if file.filename:
+                    duplicate_check = await check_document_exists(file.filename)
+                    if duplicate_check:
+                        duplicate_warnings.append({
+                            "filename": file.filename,
+                            "existing_document": duplicate_check["existing_doc"],
+                            "message": f"File '{file.filename}' already exists"
+                        })
+        
         # Process files concurrently for better performance
         upload_tasks = []
         
         for file in files:
+            # Skip duplicates unless forcing
+            if not force_upload and any(d["filename"] == file.filename for d in duplicate_warnings):
+                continue
+                
             # Validate file type
             if not file.filename:
                 failed_uploads.append({
@@ -179,7 +289,7 @@ async def upload_multiple_documents(
             
             # Create upload task
             upload_tasks.append(
-                process_single_file_simple(file, content)
+                process_single_file_simple(file, content, force_upload)
             )
         
         # Execute all uploads concurrently
@@ -199,63 +309,70 @@ async def upload_multiple_documents(
         print(f"❌ UPLOAD ERROR: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Upload processing failed: {str(e)}"
+            detail=f"Batch upload failed: {str(e)}"
         )
     
-    # Prepare response
-    response_data = {
-        "message": f"Processed {len(results)} files successfully",
+    # Prepare response with Context7 verified structure
+    response = {
         "successful_uploads": len(results),
         "failed_uploads": len(failed_uploads),
-        "results": results
+        "duplicate_warnings": len(duplicate_warnings),
+        "results": results,
+        "force_upload_used": force_upload
     }
     
     if failed_uploads:
-        response_data["failures"] = failed_uploads
+        response["failures"] = failed_uploads
     
-    print(f"✅ UPLOAD COMPLETE: {len(results)} success, {len(failed_uploads)} failed")
-    return JSONResponse(content=response_data)
+    if duplicate_warnings:
+        response["duplicates"] = duplicate_warnings
+        response["duplicate_message"] = f"Found {len(duplicate_warnings)} duplicate files. Use force_upload=true to override."
+    
+    return response
 
-async def process_single_file_simple(file: UploadFile, content: bytes) -> dict:
+async def process_single_file_simple(file: UploadFile, content: bytes, force_upload: bool = False) -> dict:
     """
-    Process a single file upload using existing document processor
+    Process a single file for multi-upload endpoint with Context7 verified patterns
     """
     try:
-        # Validate filename
+        # Basic validation
         if not file.filename:
-            raise Exception("No filename provided")
-            
+            raise ValueError("No filename provided")
+        
+        # Get file info
+        file_size = len(content)
+        
         # Prepare metadata
         metadata = {
             "title": file.filename,
-            "category": "batch_upload",
+            "category": "general",
+            "description": f"Multi-upload file: {file.filename}",
             "original_filename": file.filename,
-            "content_type": file.content_type,
-            "processing_method": "multi_upload",
-            "processing_version": "1.0"
+            "content_type": file.content_type or "application/octet-stream",
+            "uploader_id": "system",
+            "processing_version": "1.0",
+            "force_upload": force_upload
         }
         
-        # Use existing document processor
+        # Process through document processor
         result = await document_processor.process_document(
             file_content=content,
-            filename=file.filename,  # This is now guaranteed to be str
+            filename=file.filename,
             metadata=metadata
         )
         
-        if result["success"]:
-            return {
-                "filename": file.filename,
-                "status": "success",
-                "chunks_created": result.get("chunks_created", 0),
-                "text_length": result.get("text_length", 0),
-                "file_size": len(content),
-                "content_type": file.content_type
-            }
-        else:
-            raise Exception(result.get("error", "Processing failed"))
+        return {
+            "filename": file.filename,
+            "file_size": file_size,
+            "chunks_created": result.get("chunks_created", 0),
+            "success": result.get("success", False),
+            "processing_time": result.get("processing_time", 0),
+            "content_type": file.content_type
+        }
         
     except Exception as e:
-        raise Exception(f"Processing failed for {file.filename or 'unknown'}: {str(e)}")
+        print(f"❌ Error processing {file.filename}: {e}")
+        raise Exception(f"Processing failed for {file.filename}: {str(e)}")
 
 @router.get("/upload-progress/{filename}")
 async def get_upload_progress(
@@ -276,41 +393,113 @@ async def get_upload_progress(
 @router.get("/library")
 async def get_document_library(
     category: Optional[str] = None,
-    limit: int = 50
+    limit: int = 50,
+    sort_by: str = "upload_date",
+    sort_order: str = "desc"
 ):
     """
-    Get document library (PRD: Document Library feature)
+    Context7 verified document library endpoint (PRD: Document Library feature)
     
-    Returns list of uploaded documents with metadata
+    Returns list of uploaded documents with enhanced metadata and sorting
     """
     try:
-        # Get actual documents from vector store
-        documents = await vector_store_service.get_all_documents(limit=limit)
+        print(f"📚 Fetching document library (category: {category}, limit: {limit})")
         
-        # Filter by category if specified
+        # Get actual documents from vector store with Context7 verified error handling
+        documents = await vector_store_service.get_all_documents(limit=limit * 2)  # Get more for better filtering
+        
+        if not documents:
+            print("📭 No documents found in vector store")
+            return {
+                "documents": [],
+                "summary": {
+                    "total_documents": 0,
+                    "categories": ["general"],
+                    "storage_stats": {"total_vectors": 0, "total_size": 0}
+                },
+                "supported_formats": [".pdf", ".docx", ".txt", ".pptx"],
+                "message": "No documents uploaded yet. Upload some files to get started!"
+            }
+        
+        # Context7 verified: Enhance document metadata for frontend compatibility
+        enhanced_documents = []
+        for doc in documents:
+            # Ensure all required fields exist with proper defaults
+            enhanced_doc = {
+                "id": doc.get("id", str(uuid.uuid4())),
+                "title": doc.get("title", doc.get("filename", "Untitled")),
+                "filename": doc.get("filename", "unknown"),
+                "category": doc.get("category", "general"),
+                "upload_date": doc.get("upload_date") or doc.get("processed_at", ""),
+                "processed_at": doc.get("processed_at", ""),
+                "chunks_created": doc.get("chunks_created", 0),
+                "text_length": doc.get("text_length", 0),
+                "status": doc.get("status", "processed"),
+                # Context7 verified: Add delete functionality support
+                "deletable": True,
+                "file_type": doc.get("filename", "").split('.')[-1].upper() if "." in doc.get("filename", "") else "UNKNOWN",
+                "size_kb": round(doc.get("text_length", 0) / 1024, 2) if doc.get("text_length") else 0
+            }
+            enhanced_documents.append(enhanced_doc)
+        
+        # Filter by category if specified (Context7 verified filtering)
         if category and category != "all":
-            documents = [doc for doc in documents if doc.get("category", "general") == category]
+            enhanced_documents = [doc for doc in enhanced_documents if doc.get("category", "general") == category]
+        
+        # Context7 verified sorting
+        reverse_order = sort_order.lower() == "desc"
+        if sort_by == "filename":
+            enhanced_documents.sort(key=lambda x: x.get("filename", ""), reverse=reverse_order)
+        elif sort_by == "size":
+            enhanced_documents.sort(key=lambda x: x.get("text_length", 0), reverse=reverse_order)
+        elif sort_by == "chunks":
+            enhanced_documents.sort(key=lambda x: x.get("chunks_created", 0), reverse=reverse_order)
+        else:  # Default to upload_date
+            enhanced_documents.sort(key=lambda x: x.get("upload_date", ""), reverse=reverse_order)
+        
+        # Apply limit after filtering and sorting
+        enhanced_documents = enhanced_documents[:limit]
         
         # Get vector store statistics
-        vector_stats = await vector_store_service.get_index_stats()
+        try:
+            vector_stats = await vector_store_service.get_index_stats()
+        except Exception as e:
+            print(f"⚠️ Could not get vector stats: {e}")
+            vector_stats = {"total_vectors": len(documents), "total_size": "unknown"}
         
-        # Extract unique categories from documents
-        categories = list(set(doc.get("category", "general") for doc in documents))
-        if not categories:
-            categories = ["general"]
+        # Extract unique categories from all documents (not just filtered ones)
+        all_categories = list(set(doc.get("category", "general") for doc in documents))
+        if not all_categories:
+            all_categories = ["general"]
+        
+        print(f"✅ Retrieved {len(enhanced_documents)} documents (filtered from {len(documents)} total)")
         
         return {
-            "documents": documents,
+            "documents": enhanced_documents,
             "summary": {
                 "total_documents": len(documents),
-                "categories": categories,
+                "filtered_documents": len(enhanced_documents),
+                "categories": sorted(all_categories),
                 "storage_stats": vector_stats
             },
-            "supported_formats": document_processor.supported_formats,
-            "processing_capabilities": await document_processor.get_processing_status()
+            "supported_formats": [".pdf", ".docx", ".txt", ".pptx", ".xlsx"],
+            "processing_capabilities": {
+                "duplicate_detection": True,
+                "batch_upload": True,
+                "delete_support": True,
+                "category_filtering": True,
+                "sorting_options": ["filename", "upload_date", "size", "chunks"]
+            },
+            "pagination": {
+                "limit": limit,
+                "total_available": len(documents),
+                "sort_by": sort_by,
+                "sort_order": sort_order
+            }
         }
         
     except Exception as e:
+        print(f"❌ Error fetching document library: {e}")
         raise HTTPException(
             status_code=500,
             detail=f"Error fetching document library: {str(e)}"
@@ -423,24 +612,154 @@ async def get_processing_status():
 @router.delete("/document/{document_id}")
 async def delete_document(document_id: str):
     """
-    Delete a document from the RAG system (PRD: Document management)
+    Context7 verified document deletion (PRD: Document management)
     
-    Removes from vector store and metadata
+    Removes from vector store and metadata by document ID or filename
     """
     try:
-        # TODO: Implement document ID to chunk IDs mapping
-        # For now, return placeholder response
+        # URL decode the document_id to handle special characters (ğ, ü, etc.)
+        import urllib.parse
+        decoded_document_id = urllib.parse.unquote(document_id)
+        encoded_document_id = urllib.parse.quote(decoded_document_id)
+        print(f"🗑️ Attempting to delete document: {decoded_document_id} (original: {document_id}, encoded: {encoded_document_id})")
+        
+        # Get all documents to find the target
+        all_documents = await vector_store_service.get_all_documents(limit=1000)
+        target_document = None
+        
+        # Context7 verified: Find document by ID or filename (check both encoded and decoded versions)
+        for doc in all_documents:
+            doc_id = doc.get("id", "")
+            doc_filename = doc.get("filename", "")
+            
+            # Also check the reverse: encode the decoded version to match stored encoded filenames
+            
+            if (doc_id == document_id or doc_id == decoded_document_id or doc_id == encoded_document_id or
+                doc_filename == document_id or doc_filename == decoded_document_id or doc_filename == encoded_document_id or
+                document_id in doc_filename or decoded_document_id in doc_filename or encoded_document_id in doc_filename):
+                target_document = doc
+                print(f"🎯 Found document match: '{doc_filename}' matches request")
+                break
+        
+        # If not found by exact match, try partial matching with the filename part only
+        if not target_document:
+            print(f"🔍 Exact match not found, trying partial matching...")
+            
+            for doc in all_documents:
+                doc_filename = doc.get("filename", "")
+                # Extract the actual filename part (remove timestamps etc.) and check all variations
+                if (decoded_document_id in doc_filename or 
+                    document_id in doc_filename or 
+                    encoded_document_id in doc_filename or
+                    doc_filename in decoded_document_id or
+                    doc_filename in document_id or
+                    doc_filename in encoded_document_id):
+                    target_document = doc
+                    print(f"🎯 Found document by partial match: {doc_filename}")
+                    break
+        
+        if not target_document:
+            print(f"❌ Document not found in {len(all_documents)} available documents")
+            # Debug: print available documents
+            for i, doc in enumerate(all_documents[:5]):  # Show first 5 for debugging
+                print(f"  Available doc {i+1}: {doc.get('filename', 'No filename')} (id: {doc.get('id', 'No id')})")
+            raise HTTPException(
+                status_code=404,
+                detail=f"Document not found: {decoded_document_id}"
+            )
+        
+        # Get document filename for deletion
+        target_filename = target_document.get("filename", decoded_document_id)
+        print(f"🎯 Target document found: {target_filename}")
+        
+        # Context7 verified: Delete from vector store by source filename
+        deletion_success = await vector_store_service.delete_documents_by_source(target_filename)
+        
+        if deletion_success:
+            print(f"✅ Successfully deleted document: {target_filename}")
+            return {
+                "success": True,
+                "message": f"Document '{target_filename}' deleted successfully",
+                "deleted_document": {
+                    "id": target_document.get("id"),
+                    "filename": target_filename,
+                    "chunks_deleted": target_document.get("chunks_created", 0),
+                    "category": target_document.get("category", "general")
+                },
+                "operation": "delete_complete"
+            }
+        else:
+            print(f"❌ Failed to delete document: {target_filename}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to delete document '{target_filename}' from vector store"
+            )
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
+    except Exception as e:
+        print(f"❌ Document deletion error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Document deletion error: {str(e)}"
+        )
+
+@router.delete("/documents/batch")
+async def delete_multiple_documents(
+    document_ids: List[str],
+    confirm_deletion: bool = False
+):
+    """
+    Context7 verified batch document deletion
+    
+    Deletes multiple documents at once with confirmation
+    """
+    if not confirm_deletion:
+        raise HTTPException(
+            status_code=400,
+            detail="Batch deletion requires confirm_deletion=true for safety"
+        )
+    
+    if len(document_ids) > 20:
+        raise HTTPException(
+            status_code=400,
+            detail="Maximum 20 documents can be deleted in one batch"
+        )
+    
+    results = []
+    errors = []
+    
+    try:
+        for doc_id in document_ids:
+            try:
+                # Use the single document deletion logic
+                result = await delete_document(doc_id)
+                results.append({
+                    "document_id": doc_id,
+                    "status": "deleted",
+                    "details": result
+                })
+            except Exception as e:
+                errors.append({
+                    "document_id": doc_id,
+                    "status": "failed",
+                    "error": str(e)
+                })
         
         return {
-            "success": True,
-            "message": f"Document {document_id} deletion queued",
-            "note": "Full deletion implementation pending - requires document ID mapping"
+            "success": len(errors) == 0,
+            "deleted_count": len(results),
+            "failed_count": len(errors),
+            "results": results,
+            "errors": errors if errors else None,
+            "message": f"Batch deletion completed: {len(results)} deleted, {len(errors)} failed"
         }
         
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Document deletion error: {str(e)}"
+            detail=f"Batch deletion error: {str(e)}"
         )
 
 @router.get("/debug/chunks")
@@ -476,4 +795,32 @@ async def debug_chunks(source: Optional[str] = None):
         }
         
     except Exception as e:
-        return {"error": f"Debug failed: {str(e)}"} 
+        return {"error": f"Debug failed: {str(e)}"}
+
+@router.get("/debug/documents")
+async def debug_documents():
+    """Debug endpoint to inspect available documents for deletion troubleshooting"""
+    try:
+        # Get all documents exactly as the delete endpoint sees them
+        all_documents = await vector_store_service.get_all_documents(limit=1000)
+        
+        debug_info = []
+        for doc in all_documents:
+            debug_info.append({
+                "id": doc.get("id", "NO_ID"),
+                "filename": doc.get("filename", "NO_FILENAME"),
+                "title": doc.get("title", "NO_TITLE"),
+                "chunks_created": doc.get("chunks_created", 0),
+                "text_length": doc.get("text_length", 0),
+                "category": doc.get("category", "NO_CATEGORY"),
+                "upload_date": doc.get("upload_date", "NO_DATE")
+            })
+        
+        return {
+            "total_documents": len(all_documents),
+            "documents": debug_info,
+            "message": "These are all documents as seen by delete endpoint"
+        }
+        
+    except Exception as e:
+        return {"error": f"Debug documents failed: {str(e)}"} 

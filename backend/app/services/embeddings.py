@@ -69,9 +69,9 @@ class EmbeddingsService:
                     self.primary_provider = "gemini"
                     self.model = settings.GEMINI_EMBEDDING_MODEL
                     self.dimensions = settings.GEMINI_EMBEDDING_DIMENSION
-                    print("✓ Gemini embeddings client initialized (PRIMARY)")
+                    print("OK Gemini embeddings client initialized (PRIMARY)")
             except Exception as e:
-                print(f"! Gemini embeddings failed: {e}")
+                print(f"ERROR Gemini embeddings failed: {e}")
                 self.gemini_client = None
         
         # Initialize OpenAI as fallback if available
@@ -101,9 +101,9 @@ class EmbeddingsService:
                     self.primary_provider = "sentence_transformers"
                     self.model = "all-MiniLM-L6-v2"
                     self.dimensions = 384  # MiniLM dimensions
-                print("✓ Sentence Transformers initialized (FALLBACK)")
+                print("OK Sentence Transformers initialized (FALLBACK)")
             except Exception as e:
-                print(f"! Sentence Transformers failed: {e}")
+                print(f"ERROR Sentence Transformers failed: {e}")
                 self.sentence_transformer = None
         
         # Final fallback to hash-based

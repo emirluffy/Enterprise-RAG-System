@@ -8,6 +8,7 @@ import hashlib
 from typing import List, Dict, Optional, BinaryIO
 from pathlib import Path
 import asyncio
+from datetime import datetime
 
 # Document processing libraries
 try:
@@ -390,7 +391,7 @@ class DocumentProcessor:
                         **chunk["metadata"],
                         **(metadata or {}),
                         "content": chunk["text"],
-                        "uploaded_at": str(uuid.uuid4()),  # Simple timestamp replacement
+                        "upload_date": datetime.now().isoformat(),
                         "file_size": len(file_content),
                         "file_type": file_ext
                     }

@@ -1,6 +1,6 @@
 import secrets
 import warnings
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, List, Optional, Union, Dict
 
 from pydantic import (
     AnyUrl,
@@ -10,6 +10,7 @@ from pydantic import (
     PostgresDsn,
     computed_field,
     model_validator,
+    AnyHttpUrl,
 )
 from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -35,12 +36,12 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
-    FRONTEND_HOST: str = "http://localhost:5173"
+    FRONTEND_HOST: str = "http://localhost:5174"
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
 
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyUrl] | str, BeforeValidator(parse_cors)
-    ] = []
+    ] = "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5174"
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -123,13 +124,24 @@ class Settings(BaseSettings):
     # AI Models and APIs (Updated to Gemini 2.5 Flash-Lite Preview)
     GEMINI_API_KEY: str
     GEMINI_MODEL: str = "gemini-2.5-flash-lite-preview-06-17"
-    GEMINI_EMBEDDING_MODEL: str = "gemini-embedding-exp-03-07"
+    GEMINI_EMBEDDING_MODEL: str = "gemini-embedding-001"
     GEMINI_EMBEDDING_DIMENSION: int = 3072  # Elastic: 3072, 1536, or 768
     OPENAI_API_KEY: str = ""  # For embeddings (text-embedding-3-small)
     
     # Multiple API Keys for Rotation (comma-separated)
     GEMINI_API_KEYS: str = ""  # Format: "key1,key2,key3,..." for rotation
     USE_API_ROTATION: bool = False  # Enable multi-key rotation
+    
+    @model_validator(mode='after')  # Context7: Auto-enable rotation when multiple keys available
+    def validate_api_rotation(self) -> Self:
+        """Auto-enable API rotation when multiple Gemini API keys are provided"""
+        parsed_keys = self.parsed_gemini_api_keys
+        if len(parsed_keys) > 1:
+            print(f"🔄 Auto-enabling API rotation: {len(parsed_keys)} keys detected")
+            self.USE_API_ROTATION = True
+        else:
+            print(f"🔑 Single API key mode: {len(parsed_keys)} key(s)")
+        return self
     
     # Text Processing Settings (from PRD requirements)
     CHUNK_SIZE: int = 1000  # Character-based chunking

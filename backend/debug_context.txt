@@ -1,44 +1,1628 @@
-USER QUESTION: Suistimal blokeleri neden oluşur ?
+USER QUESTION: passo şifremi nasıl oluşturabilirim?
 ==================================================
 CONTEXT SENT TO AI:
-[Kaynak 1] e Tanımları
+[Kaynak 1] --- Slide 1 ---
+
+Passo Mobil Eğitim Dokümanı
+
+
+--- Slide 2 ---
+
+Uygulamaya Giriş
+
+
+--- Slide 3 ---
+
+Login Olma
+
+Passo Mobil Uygulama ilgili telefona indirildikten sonra ilk açılış ekranı aşağıdaki gibi gelecektir.
+
+nı aşağıdaki gibi gelecektir.
+
+Açılan sayfada müşteri mevcut etkinlikleri görecek ve sayfanın altında «Hepsi» «Futbol» «Biletlerim» ve «Hesabım» menülerini görecektir.
+
+Hesabım menüsünden login olunur.
+
+sabım menüsünden login olunur.
+«Passolig İle Giriş Yap»
+«E-Posta ile Giriş Yap»
+Üye olmayan müşteriler için;
+«Üye Ol»
+butonları bulunmaktadır.
+
+
+--- Slide 4 ---
+
+Login Olma
+
+Biletlerim ve Hesabım menüleri seçildiğinde ya da kullanıcı bilet almak istediğinde login olması beklenir.
+
+diğinde login olması beklenir.
+E- Posta ile Giriş Yap butonu tıklandığında açılan sayfada daha önce üyeliği olan müşterilerden Eposta Adresi ve Şifre bilgileri talep edilecektir.
+Şifresini hatırlamayan müşterilerimiz için «Şifremi Unuttum» seçeneği bulunmaktadır.
+
+uttum» seçeneği bulunmaktadır.
+Ayrıca bu aşamada üyelik bilgileri olmayan kullanıcılar için «Üye Ol» seçeneği bulunmaktadır.
+
+
+--- Slide 5 ---
+
+Login Olma
+
+Üye olan müşterilerimize aktivasyon maili gönderilir. Onay verildikten sonra giriş yapılabilir.
+
+
+--- Slide 6 ---
+
+Login Olma
+
+--- Slide 6 ---
+
+Login Olma
+
+E posta bilgisi ile giriş yapan müşterimize ilk girişte Passolig kartı bağlamak isteyip istemediği sorulur.
+Müşterimizin Passolig kartı varsa ve bağlamak istiyorsa EVET dedikten sonra TC Kimlik/Pasaport numarasını ve cep telefon numarasını yazarak tanımlama yapabilir.
+
+ı yazarak tanımlama yapabilir.
+Kartı yoksa veya bağlamak istemiyorsa Hayır diyerek etkinlik işlemlerine devam edebilir.
+Müşterimiz daha sonra passolig kartını bağlamak isterse maç bileti satın alırken tekrar aynı soru çıkacaktır.
 
 
 --- Slide 7 ---
 
-2-Suistimal BlokeleriSuistimal blokeleri, Dolandırıcılık Şüphesi ve Ulaşılamayan Müşteri alt bloke sebeplerinden oluşur. Suistimal Blokesi olduğunda müşteriye blokesi olduğunu iletmemeliyiz.Suistimal Blokesi olduğunda; "Güvenlik nedeniyle işleminiz incelemededir.
+Login Olma
 
-[Kaynak 2] atalı girildiğinde bloke olur.Alternatif güvenlik sorusunun bloke olması durumunda çağrı ilk açıldığında ekranımıza görseldeki uyarı gelecektir.
+--- Slide 7 ---
 
-Alternatif Güvenlik Sorusu Blokesi
+Login Olma
 
+Passolig İle Giriş Yap butonu tıklandığında açılan sayfada daha önce üyeliği olan müşterilerden TC Kimlik ya da yabancı müşterilerden Pasaport Numarasıve Cep Telefonu bilgileri talep edilecektir. Kayıtlı olan cep telefonuna OTP gönderilecektir.
 
---- Slide 16 ---
+elefonuna OTP gönderilecektir. OTP girmek için 4 dakikalık süre verilmiştir. Daha sonra üye olurken belirlenen şifre ile giriş yapılabilecektir.
 
-Alternatif Güvenlik Sorusu Bloke Çözme
-
-[Kaynak 3] i Unuttum" butonuna tıklanır.
-
-Ekranda şifre oluşturmak için 3 ayrı seçenek çıkacaktır. "T.C Kimlik Kartı ile Şifre Hatırlat" seçilerek devam edilir.
+Şifresini hatırlamayan müşterilerimiz için «Şifremi Unuttum» seçeneği bulunmaktadır.
 
 
---- Slide 19 ---
+--- Slide 8 ---
 
-Alternatif Güvenlik Sorusu Bloke Çözme
-
-Müşterinin doldurması gereken bilgiler yer alacaktır.
-
-[Kaynak 4] nedeniyle bloke konulmaktadır.NOT: Bu blokeler dışında banka tarafından hesaba veya kanala konulan çeşitli blokeler bulunmaktadır. Bloke izleme ekranından bunlar görülebilir. Ancak müşteriye bilgilendirme yapılmadan MBS kaydı açılmalıdır.
-
-Kanal Bloke Sebepleri ve Tanımları
+Şifre Hatırlatma
 
 
 --- Slide 9 ---
 
-[Kaynak 5] ni bir şifre gönderildiğinde bloke otomatik kalkmaktadır. Bu nedenle ayrıca bloke çözme yapılmasına gerek bulunmamaktadır.
+Hatırlatma
+
+
+--- Slide 9 ---
+
+Şifremi Unuttum
+
+Login için şifresini hatırlamayan müşterilerimiz «Şifremi Unuttum» butonunu kullanarak yeni şifre oluşturabilecektir.
+Yeni şifre için «Eposta Adresimi Kullan» ve «Telefon Numaramı Kullan» seçenekleri bulunmaktadır.
+
+an» seçenekleri bulunmaktadır.
+Eposta adresi ile yeni bir şifre belirlemek isteyen müşterilerimizden açılan yeni sayfada Eposta adresini yazmaları istenecektir.
+Şifremi Hatırlat butonu kullanılarak şifre hatırlatma işlemi tamamlanacaktır.
+
+
+--- Slide 10 ---
+
+Şifremi Unuttum
+
+Slide 10 ---
+
+Şifremi Unuttum
+
+Telefon Numarası ile yeni bir şifre belirlemek isteyen müşterilerimizden açılan yeni sayfada TC Kimlik ya da yabancı müşterilerden Pasaport Numarası ve Cep Telefonu bilgileri istenecektir.
+
+lefonu bilgileri istenecektir.
+Telefon ile hatırlatsadece Passolig kartıolankullanıcılarınkullanabileceğiakıştır.
+
+
+--- Slide 11 ---
+
+Etkinlik İşlemleri
+
+
+--- Slide 12 ---
+
+Etkinlik Seçim
+
+Slide 12 ---
+
+Etkinlik Seçim
+
+Login olan müşteriler seçim butonuna bastıklarında etkinlikleri;
+«Kategoriye Göre»
+«Tarihe Göre»
+«Konuma Göre»
+«Etikete Göre» filtreleyebilecektir.
+Seçim yapıldıktan sonra «LİSTELE» butonuna basılmalıdır.
+
+
+--- Slide 13 ---
+
+«Tarihe Göre»
+
+«Konuma Göre»
+
+«Tarihe Göre»
+
+«Konuma Göre»
+
+«Etikete Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 14 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 15 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 16 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 17 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 18 ---
+
+nlik Seçim
+
+
+--- Slide 18 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 19 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 20 ---
+
+«Kategoriye Göre»
+
+Etkinlik Seçim
+
+
+--- Slide 21 ---
+
+Filtrelenen etkinlik için kayıt olmaması durumunda «Herhangi bir sonuç bulunamadı» uyarısı verilmektedir.
+
+namadı» uyarısı verilmektedir. Örneğin Müzikal kategorisinde tanımlı etkinlik olmadığı için ekranda ilgili uyarı gösterilmiştir.
+
+Etkinlik Seçim
+
+
+--- Slide 22 ---
+
+Ana sayfanın en altında bulunan menülerden Futbol seçildiğinde maç bilgileri listelenir.
+
+inde maç bilgileri listelenir. Müşteriler isterse ilgili maçın üzerine tıklayarak isterse «Ara» bölümünden maç bilgilerine ulaşabilir.
+
+Futbol
+
+
+--- Slide 23 ---
+
+Ana sayfanın en altında bulunan menülerden Biletlerim seçildiğinde;
+
+Biletlerim
+
+rim seçildiğinde;
+
+Biletlerim
+
+«Biletlerim»
+«Kombinelerim»
+«Rezervasyonlarım»
+menüleri görüntülenir.
+Biletlerim menüsü altından Passolig Biletlerim ve Etkinlik Biletlerim seçenekleri görüntülenir.
+
+
+--- Slide 24 ---
+
+Etkinlik Seçim
+
+Slide 24 ---
+
+Etkinlik Seçim
+
+«Kombinelerim»
+Devir Puanlarım
+Passolig Kombine Biletlerim
+Etkinlik Kombine Biletlerim
+
+
+--- Slide 25 ---
+
+Etkinlik Seçim
+
+Rezervasyonlarım
+Passolig Rezervasyonlarım
+Etkinlik Rezervasyonlarım
+
+
+--- Slide 26 ---
+
+Bilet Satın Alma
+
+
+--- Slide 27 ---
+
+Satın Alma
+
+
+--- Slide 27 ---
+
+Maç Bileti Satın Alma
 
 
 --- Slide 28 ---
 
-Teşekkürler
+Maç Bileti Satın Alma
+
+
+--- Slide 29 ---
+
+Maç Bileti Satın Alma
+
+
+--- Slide 30 ---
+
+Maç Bileti Satın Alma
+
+
+--- Slide 31 ---
+
+Maç Bileti Satın Alma
+
+
+--- Slide 32 ---
+
+Maç Bileti Satın Alma
+
+Maç Bileti Satın Alma
+
+Alma
+
+Maç Bileti Satın Alma
+
+
+--- Slide 33 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 34 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 35 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 36 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 37 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 38 ---
+
+Satın Alma
+
+
+--- Slide 38 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 39 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 40 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 41 ---
+
+Etkinlik Bileti Satın Alma
+
+
+--- Slide 42 ---
+
+Hesabım Menüsü
+
+
+--- Slide 43 ---
+
+Hesabım
+
+ü
+
+
+--- Slide 43 ---
+
+Hesabım
+
+Hesabım menüsünden aşağıdaki işlemlere ulaşılır.
+Profilim,
+Bildirimlerim,
+Takip ettiklerim,
+Biletlerim,
+Kombinelerim,
+Passolig Kartlarım,
+E-Bilet Süresi,
+Para Yükle,
+Banka Kartına Terfi
+
+
+--- Slide 44 ---
+
+Hesabım
+
+i
+
+
+--- Slide 44 ---
+
+Hesabım
+
+Passolig kartı olan müşterilerimiz;
+Passolig Kartlarım,
+E-Bilet Süresi,
+Para Yükle,
+Banka Kartına Terfi
+butonlarına tıklarsa Passolig kart başvurusuna yönlendirilir.
+
+art başvurusuna yönlendirilir.
+Eğer Passolig kart tanımlıysa, kullanıcınınkartının uygun olduğuhallerigörüntülenir, örneğinbankakartıysabankakartınaterfi et çıkmaz.
+
+
+--- Slide 45 ---
+
+Profilim
+
+Profilim alanında kişisel bilgiler görüntülenir, şifre ve e-posta adresi değiştirilir.
+
+e e-posta adresi değiştirilir.
+Çıkış yap butonundan oturum kapatılır.
+
+
+--- Slide 46 ---
+
+CihazEşleştirme
+
+Uygulama otomatik olarak aşağıdaki ekranı gösterir. Tanımlama işlemleri için Mavi kutucuk içindeki simge tuşlanır.
+
+ucuk içindeki simge tuşlanır.
+
+Passo Mobil Uygulama’da cihaz eşleştirme işlemleri, uygulamaya ilk girişte gerçekleştirilmez.
+Kullanıcının uygulama içinde finansal bir işlem yapması durumunda, cihaz eşleştirilmesine yönelik karşısına daha önce oluşturduysa AlternatifGüvenlikSorusu güvenliği, AGS güve
+
+nlikSorusu güvenliği, AGS güvenliği oluşturmamış ise KPS sorusu çıkar.
+Örn: Oyun Ödemesi ya da N Kolay Öde seçeneği tuşlandığında tanımlama ekranı gösterilecek ve eşleştirme yapılacaktır.
+
+
+--- Slide 47 ---
+
+CihazEşleştirme
+
+Bu adımda müşterinin AGS sorusu yok ise KPS sorusu gösterilecektir.
+
+e KPS sorusu gösterilecektir.
+
+Doğru yanıt sonrasında cihaz eşleştirme işlemi tamamlanır.
+
+Kart Bilgisiekranınagirişyapılır.
+
+
+--- Slide 48 ---
+
+CihazEşleştirme
+
+
+--- Slide 49 ---
+
+Bildirimlerim
+
+Uygulama üzerinden müşteriye yapılan bilgilendirmelere ulaşılır.
+
+an bilgilendirmelere ulaşılır.
+Bildirimler okunduktan sonra silinebilir.
+
+
+--- Slide 50 ---
+
+Takip Ettiklerim
+
+Anasayfa’da takip edilmek istenen etkinlikler seçildiğinde bu alandan görüntülenir.
+Bir etkinliği takip etmek için kalp kutucuğu işaretlenir.
+
+
+--- Slide 51 ---
+
+aretlenir.
+
+
+--- Slide 51 ---
+
+Biletlerim/Kombinelerim/Rezervasyonlarım
+
+Bu alandan satın alınan biletler, kombineler ve rezervasyonlar görüntülenebilir.
+Biletlerim bölümünden bilet detaylarına ulaşılır veya bilet farklı bir kişiye transfer edilebilir.
+
+ir kişiye transfer edilebilir.
+Ayrıca kombinelerim alanından devredilen kombinelere ait puan bilgilerine ulaşılır.
+
+
+--- Slide 52 ---
+
+Passolig Kartlarım
+
+Müşterinin adına ait tüm
+Passolig Kartları’na bu menüden ulaşılır.
+Kartlara ait bilgiler, kart hareketler, kayıtlı kartlar görüntülenir.
+
+kayıtlı kartlar görüntülenir.
+E-bilet süresini uzatma ve para yükleme işlemleri yapılır.
+
+
+--- Slide 53 ---
+
+Passolig Kartlarım
+
+
+--- Slide 54 ---
+
+Passolig Kartlarım
+
+
+--- Slide 55 ---
+
+Passolig Kartlarım
+
+
+--- Slide 56 ---
+
+Passolig Kartlarım
+
+
+--- Slide 57 ---
+
+Passolig Kartlarım
+
+e 57 ---
+
+Passolig Kartlarım
+
+
+--- Slide 58 ---
+
+Passolig Kartlarım
+
+Passolig Kartı olmayan müşterilerimiz için yandaki uyarı çıkacaktır.
+Müşteri isterse «Evet» seçeneği ile başvurusunu başlatabilir.
+
+
+--- Slide 59 ---
+
+Kampanyalarım
+
+- Slide 59 ---
+
+Kampanyalarım
+
+Banka tarafından düzenlenen kampanya bilgilerine bu menüden ulaşılır. Kampanya detayına ulaşmak için ilgili kampanya tıklanır.
+
+
+--- Slide 60 ---
+
+N Kolay İşlemlerim
+
+de 60 ---
+
+N Kolay İşlemlerim
+
+Bu menüden Kayıtlı Kartlarım, N Kolay Kredi Başvurusu, Kredili Destek Hesabı Başvurusu, QR Kod ile Para Gönderme/Ödeme Al ve Kolay Paketlere ulaşılır.
+Kredi veya KDH başvurusunda bulunmak isteyen müşterilerimiz başvuru sayfasına yönlendirilir.
+
+
+--- Slide 61 ---
+
+endirilir.
+
+
+--- Slide 61 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Yapılır?
+
+N Kolay ile Öde’yi kullanarak hızlı ve güvenli ödeme yapmak için Passo Mobil uygulamasına giriş yapılması yeterlidir.
+
+na giriş yapılması yeterlidir. Passolig kartın bakiyesini kullanarak, işyerindeki QR kodu okutarak ya da cep telefonuna gönderilen QR kodu yükleyerek hızlı ve kolay ödeme yapabilmektedir.
+
+e kolay ödeme yapabilmektedir. Üstelik bakiyenin yetersiz olması durumunda ise hemen para yükleyebilir veya Kolay Öde paketleri kullanabilmektedir.
+Ödemeler için en düşük işlem limiti bulunmamaktadır.
+
+işlem limiti bulunmamaktadır. Passo uygulaması kullanıcıları N Kolay Öde üye işyerlerinde günlük en fazla 10 işlem yapabilirler ve günlük maksimum 10.000 TL tutarında ödeme yapabilirler.
+
+
+--- Slide 62 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Yapılır?
+
+Favoriler
+
+Albüm
+
+1
+
+2
+
+3
+
+?
+
+Favoriler
+
+Albüm
+
+1
+
+2
+
+3
+
+
+--- Slide 63 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Yapılır?
+
+Favoriler
+
+4
+
+5
+
+6
+
+İşlem türünden Kira ödemesi veya Eticaret ödemesi yapıldığı tercih edilebilir.
+
+
+--- Slide 64 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Yapılır?
+
+7
+
+a İle Nasıl Ödeme Yapılır?
+
+7
+
+Buradaki IBAN ile TCKN bilgisinin uyuşması gerekiyor.
+
+
+--- Slide 65 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Alınır?
+
+Buradaki IBAN ile TCKN bilgisinin uyuşması gerekiyor.
+
+Passolig kart sahipleri birbiri arasında para gönder/al yapabilecektir.
+
+para gönder/al yapabilecektir. Alınan tutarlar alışverişlerde, para gönderimlerinde, biletleme işlemlerinde ve para çekimi olarak kullanılabilecektir. Tutar top-up olarak algılanmayacaktır.
+Temassız kullanımlarda günlük limit vardır.
+
+anımlarda günlük limit vardır. Bu limit eski tutarlar olan 50 TL ve altı işlemlerde ve günlük toplam 150 TL kuralı ile geçerli olacaktır.
+Ödemeler için en düşük işlem limiti bulunmamaktadır.
+
+işlem limiti bulunmamaktadır. Passo uygulaması kullanıcılarının kendi aralarında yapacakları para gönderimleri günlük en fazla 500 TL ya da 5 adet para transferi ile sınırlıdır.
+
+
+--- Slide 66 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Alınır?
+
+Buradaki IBAN ile TCKN bilgisinin uyuşması gerekiyor.
+
+ilgisinin uyuşması gerekiyor.
+
+2
+
+3
+
+1
+
+
+--- Slide 67 ---
+
+Passo Mobil Uygulama İle Nasıl Ödeme Alınır?
+
+Buradaki IBAN ile TCKN bilgisinin uyuşması gerekiyor.
+
+4
+
+5
+
+
+--- Slide 68 ---
+
+Kolay Paketlerden yararlanmak için müşterimizin Passolig kart müşterisi olması gerekir.
+
+kart müşterisi olması gerekir.
+Kolay Paketlerin kullanımında herhangi bir masraf ya da ücret müşteriye yansıtılmaz.
+Kolay paketlere Passo Mobil’de N Kolay Öde platformu içinden “Kolay Öde” butonuna tıklayarak başvuru yapılır ve anında kullanılır.
+
+Kolay Paket
+
+
+--- Slide 69 ---
+
+olay Paket
+
+
+--- Slide 69 ---
+
+Kolay Paketler, N Kolay Öde ile ödeme yapılabilen marketlerde, büfe ve restoranlarda ve alışveriş yapılan her yerde temassız alışveriş özelliği ile kullanılabilecektir.
+Ön ödemeli ya da Passolig banka kartı varsa hesaptaki Kolay Paket tutarı ile maç bileti alınabilir.
+
+arı ile maç bileti alınabilir.
+Bunun yanı sıra, Passolig’liler arasında ücretsiz para transferlerinde ve nakit çekim olarak da kullanılabilir.
+
+Kolay Paket
+
+
+--- Slide 70 ---
+
+N Kolay Öde platformu içinde Kolay Paketler ekranında daha fazla nakit ihtiyacı için “Taksit Çağır” seçeneği bulunmaktadır.
+
+Çağır” seçeneği bulunmaktadır. Yüksek tutarda ve uzun vadede kredi ihtiyaçları için buradan başvuru yapılır.
+Kolay Paket kullanımından sonra faizsiz ödemenin son günü olan 15. günde paketin tamamını ödemek için hesapta yeterli tutar varsa otomatik olarak tahsilat yapılır. 60.
+
+k olarak tahsilat yapılır. 60. günde yapılan ödemelerde otomatik tahsilat yapılabilmesi için faiz işlemiş olan taksit tutarının tamamının hesapta bulunması gerekir.
+Kolay Paket tutarının tamamı vade tarihinden önce ödenebilir.
+
+de tarihinden önce ödenebilir. Müşterilerimiz hesabına tutarı yatırdıktan sonra Aktif Bank İnternet Şube ve Çağrı Merkezi üzerinden erken kapama yapabilir.
+
+Kolay Paket
+
+
+--- Slide 71 ---
+
+Passo Mobil – Kolay Paket İle Ödeme
+
+Kartlarım sayfasında QR ile ödeme yap seçilir.
+
+nda QR ile ödeme yap seçilir.
+
+Üye iş yerinin statik QR kodu okutulur.
+
+Ödeme yapılacak tutar manuel olarak yazılır.
+
+
+--- Slide 72 ---
+
+Tutar yazıldıktan sonra, arkada limit çıkarsa ‘‘Kolay Öde’’ butonu çıkar.
+
+İstediği kredi seçeneğini seçen müşteri kredi detaylarını onaylar.
+
+ri kredi detaylarını onaylar.
+
+İstediği Kolay Paket’i seçer.
+
+5
+
+Passo Mobil – Kolay Paket İle Ödeme
+
+
+--- Slide 73 ---
+
+Sözleşme ve talimatlara dijital onay verir.
+
+Para hesaba geçer.
+
+7
+
+Ödeme sayfasında kaldığı yerden devam eder.
+
+Passo Mobil – Kolay Paket İle Ödeme
+
+
+--- Slide 74 ---
+
+İle Ödeme
+
+
+--- Slide 74 ---
+
+Kısayol Menüsü
+
+
+--- Slide 75 ---
+
+Kısayol Menüsü
+
+Bu menüden QR Kod okutularak maça giriş yapılır.
+N Kolay ile Öde, Kolay Para, Kredi Başvurusu, Fikstür, E-Bilet Süresi Uzatma ve Para Yükleme işlemlerine ulaşılır.
+
+
+--- Slide 76 ---
+
+QR Kod İle Maça Giriş
+
+76 ---
+
+QR Kod İle Maça Giriş
+
+Mobil uygulama ile maça giriş yapmak isteyen müşteri «maça gir» butonuna tıklayarak ekranda çıkan QR kodu okutarak giriş tamamlanır.
+İnternet bağlantısı olmasa da müşteri QR ile maça giriş yapabilir.
+
+
+--- Slide 77 ---
+
+QR Kod İle Maça Giriş
+
+77 ---
+
+QR Kod İle Maça Giriş
+
+Maça Giriş Hataları
+Kullanıcı, hatalı bir geçiş noktasından geçiş yapmak istediğinde hatalı kapıdan geçiş yaptığına dair uyarı mesajı paylaşılır. Müşterimizin koltuk bilgileri kontrol edilir.
+
+ltuk bilgileri kontrol edilir.
+Kullanıcının giriş yapmak istediği maça ait bileti bulunmuyorsa bilet olmadığına dair uyarı çıkacaktır.
+Kullanıcı turnikeyi çevirmeden telefonunu cihaza iki veya daha fazla okutması durumunda geçiş 5 dakika süreyle engellenir.
+
+ş 5 dakika süreyle engellenir. Tamam butonuna tıklandığında akış sonlanır. 5 dakika süre tamamlandığında akış tekrar başlatılabilir. 5 dakika süre dolmadan yapılacak her geçiş denemesi 5 dakika sürenin sıfırlanmasına sebep olur.
+
+nin sıfırlanmasına sebep olur.
+Daha önce giriş yapılmış maç bileti bilgileriyle tekrar giriş yapılmak istendiğinde biletin kullanıldığına dair uyarı çıkacaktır.
+
+
+--- Slide 78 ---
+
+QR Kod İle Maça Giriş
+
+78 ---
+
+QR Kod İle Maça Giriş
+
+Maça Giriş Hataları
+Sistemde kayıtlı hataların dışında farklı bir teknik hata sebebiyle maça giriş yapılamadığı durumda maç bileti olup olmadığı kontrol edilir. Gerekli kontroller sonucunda bilet ile ilgili bir sorun yok ise müşteri yardım masasına yönlendirilir.
+
+rdım masasına yönlendirilir.
+
+
+--- Slide 79 ---
+
+Uygulama Giriş Hatası
+
+İnternet bağlantısının olup olmadığı kontrol ettirilir.
+Bağlantı sorunu olmayan müşterinin girişte aldığı hatayı iletmesi istenir.
+Alınan hata 30 dk blokesi olması durumunda www.passo.com.
+
+lması durumunda www.passo.com.tr den işleme devam etmesi ya da süre bitimini beklemesi iletilir. (10dk süreye düşmesi için talepte bulunuldu.)
+Uygulama versiyonunun güncel olup olmadığı kontrol ettirilir.
+Daha önce passo.com.
+
+ttirilir.
+Daha önce passo.com.tr sitesinde üyeliği olup olmadığı Backoffice ekranından kontrol edilerek müşteriye bilgi verilir. Üyeliği olmayan müşteri www.passo.com.tr üzerinden üyeliğe yönlendirilir. Üyeliği olan müşteri için e-mail adresi kontrol edilir ve gerekiyorsa e-mail adresi güncellenir.
+
+rsa e-mail adresi güncellenir. Yeni şifre alması istenir.
+Bunların dışında giriş yapamadığını iletmesi durumunda MBS’ den talep alınır.
+
+rumunda MBS’ den talep alınır.
+
+[Kaynak 2] --- Slide 1 ---
+
+Kart İşlemleri
+
+
+--- Slide 2 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Debit ve Prepaid kartlar Son Kullanma Tarihlerinin dolmasına 2 ay süre kaldığı zaman itibariyle Çağrı Merkezi kanalından ve www.passolig.com.tr web sitesi aracılığı ile yenilenebilecektir.
+
+cılığı ile yenilenebilecektir.
+Son kullanma tarihi dolan debit ve prepaid kartlar için ilk SKT yenileme işlemi 30 Nisan 2019 gece yarısı itibariyle sanal olarak yapılacaktır ve kartlar fiziki olarak yenilenmeyecektir.
+
+ziki olarak yenilenmeyecektir.
+Sanal olarak yenilenen ve fiziki olarak basılıp müşteriye gönderilmeyen Debit ve Prepaid kartlarda CVV ve SKT (Son Kullanma Tarihi) değiştiği ve müşteriye fiziki olarak kart gönderilmeyeceği için bu bilgiler müşteri tarafından www.passolig.com.
+
+i tarafından www.passolig.com.tr ‘’BAŞVURULARIM’’ alanından görüntülenebilecektir.
+Son Kullanma Tarihi yenilenmiş ve fiziki kart talep eden Debit ve Prepaid kart sahibi müşteriler kart & kurye ücretini ödeyerek bu kartlara sahip olabilecekler.
+
+kartlara sahip olabilecekler.
+Passolig Kredi Kartları ise otomatik olarak yenilenecektir. Son 1 yıl içinde hareket gören kartlar için fiziki kart gönderimi yapılmaktadır. Ancak herhangi bir hareket olmaya kredi kartları sanal vadeden yenilecektir.
+
+rı sanal vadeden yenilecektir. Müşteriler bu kartları dijital olarak kullanabilirler. Fiziki kart talep ederlerse Passolig web sitesinden Başvurularım sekmesindeki Kart Yenile adımından yenileyebilirler.
+
+
+--- Slide 3 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Kredi kartlarının yenilenme sürecinde müşterilerden herhangi bir şekilde kart & kurye ücreti talep edilmemektedir.
+Kredi Kartları yalnızca Kredi Kartı olarak, Debit kartlar ise yalnızca Debit kart olarak yenilenebilecektir.
+
+art olarak yenilenebilecektir.
+Prepaid kart sahiplerine kartlarının türünü değiştirebilmek için fırsat sunulacaktır.  İsteğe göre, Prepaid kart sahipleri hem Debit hem de Kredi Kartı seçerek kart statülerini yükseltebilecekler.
+
+tatülerini yükseltebilecekler.
+Hem Prepaid hem Debit kartı olan müşteriler ’Debit kart sahibi’ statüsünde değerlendirilecek. Bu statüde olan müşteriler vadesi dolan Prepaid kartlarını yenilerken yalnızca Prepaidolarak yenileyebilecekler.
+
+paidolarak yenileyebilecekler.
+SKT sürecine girmiş müşterilere Müşteri Karşılama ekranından vizeleme uyarısı çıkmayacaktır. Bu müşteriler için yalnızca SKT yenileme uyarısı ile karşılaşılacaktır.
+
+uyarısı ile karşılaşılacaktır.
+SKT sürecine girmiş ve aynı zamanda e-bilet süresi de bitmiş kart sahipleri fiziki olarak kartlarını yenilemek istemezlerse e-bilet ücretlerini ödeyerek kartlarını top-up, maç bileti satın alma ve maça girişlerde kullanabilecektir.
+
+
+--- Slide 4 ---
+
+bilecektir.
+
+
+--- Slide 4 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Son kullanma tarihi geçmiş kartlar bazı ATM’lerde kullanılabiliyor olacak. Kart kullanımı ATM’ye göre farklılık gösterebileceği için müşteriler ATM kullanımına yönlendirilmemelidir.
+
+lanımına yönlendirilmemelidir.
+Kayıp kartlar sürece dahil olmayacaktır. Müşteri ‘kayıp’ beyanında bulunuyorsa SKT uyarısı olsa dahi standart kayıp akışı uygulanacaktır ve kart yenileme yalnızca kurye ücreti alınarak yapılacaktır.
+
+ücreti alınarak yapılacaktır. Kayıp beyanı müşteriden gelmediği sürece kayıptan kapamama yapılmamalıdır.
+Müşteri Karşılama ekranında SKT işlemi yapılırken sözleşme adımında sözleşme kabul edilmeden veya sözleşme kabul edildikten sonra müşteri  işlemden vazgeçerse işlem yalnızca www.passolig.com.
+
+lem yalnızca www.passolig.com.tr üzerinden tamamlanabilecektir. Sözleşme adımında iptal edilen SKT sürecindeki kart için çağrı merkezi üzerinden bir daha uyarı çıkmayacaktır.
+SKT süreci www.passolig.com.tr üzerinden yapılırken yarım bırakılırsa işlem yine sadece www.passolig.com.
+
+yine sadece www.passolig.com.tr üzerinden tamamlanabilecektir. Web sitesinde yarım bırakılan başvurular için çağrı merkezi üzerinden işlem yapılamayacaktır.
+
+
+--- Slide 5 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Vizesi olan:
+Vizesi olan müşteri kartını yenilemek isterse, sadece kurye ücretini ödeyerek kartını yenileyebilir. Bu yenileme işlemini yaptıktan sonra e-bilet kullanım süresinde herhangi bir değişiklik olmaz.
+
+herhangi bir değişiklik olmaz.
+Vizesi olmayan:
+Vizesi olmayan müşteri kartını yenilemek isterse, kurye ücreti ile beraber kart ücretini de öder. Bu yenileme işlemini yaptıktan sonra e-bilet kullanım süresi 1 yıl uzar.
+
+
+--- Slide 6 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Vade yenilemesi sanal olarak tamamlanmış karta ait SKT ve CVV  bilgileri www.passolig.com.tr web sitesinde ‘başvurularım’ alanından ‘KART BAŞVURULARIM’ sekmesinden görüntülenebilmektedir.
+
+sinden görüntülenebilmektedir. Fiziki olarak yenileme yapmayan bir müşteri 30 Nisan 2019 tarihi itibariyle sanal olarak güncellenen bilgileri bu alandan kontrol edebilmektedir.
+
+
+--- Slide 7 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Debit & Prepaid kart müşterileri vadesi dolan ya da vadesinin dolmasına 2 ay süre kalmış bir karta sahiplerse  www.passolig.com.
+
+sahiplerse  www.passolig.com.tr web sitesinde ‘’BAŞVURULARIM’’ sekmesinden kendi hesaplarına giriş yaptıktan sonra KARTINI YENİLE alanını kullanarak Son Kullanma Tarihi dolmuş kartlarının yenileme işlemini yapabilmektedirler.
+
+
+--- Slide 8 ---
+
+ektedirler.
+
+
+--- Slide 8 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Son Kullanma Tarihi yenilenen Passolig kartlarda ücretlendirme standart başvuru ücretleri üzerinden yapılmaktadır.
+
+tleri üzerinden yapılmaktadır.
+Debit kart sahipleri Kredi Kartını seçerek kartlarının hem SKT sürelerini uzatıp hem de statülerini yükseltebilmektedir.
+Prepaid kart sahipleri ise hem Debit hem de Kredi Kartı seçerek ilerleyebilmektedir.
+
+
+--- Slide 9 ---
+
+ilmektedir.
+
+
+--- Slide 9 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Prepaid kart sahipleri Debit kart seçimi yaparak devam ettiklerinde;
+
+
+--- Slide 10 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Prepaid kart sahipleri Kredi Kartı seçimi yaparak devam ettiklerinde Debit kart ekranında bulunan bilgilere ek olarak;
+
+
+--- Slide 11 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Kart seçimi yapılarak bilgiler tamamlandıktan sonraki adım fotoğraf seçimidir. Müşterilerin başvurularında bulunan fotoğrafları bu adımda otomatik olarak geliyor ancak çerçeve içine yerleştirilmesi gerekmektedir.
+
+yerleştirilmesi gerekmektedir. Bu adımda müşterilerimiz fotoğraflarını güncellemek isterlerse standartlara uygun olarak yeni fotoğraf yükleyip yenilemeye devam edebilirler.
+
+
+--- Slide 12 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+SKT yenilemelerinde müşterilerden standart başvuruda bulunan kart & kurye ücreti alınmaktadır.
+Vade yenileme ödemeleri farklı banka kartı ile yapılabileceği gibi içerisinde bakiye olan Passolig kartla da yapılabilir.
+
+assolig kartla da yapılabilir. Eğer, vadesi dolan bir kart ile ödeme yapılmak istenirse kartın yeni SKT ve CVV numaralarına KART BAŞVURULARIM sekmesinde yer alan ‘Vadesi Yenilenmiş Dijital Kartlarım’ alanından ulaşılabilir ve bu bilgiler kullanılarak sanal ödeme yapılabilmektedir.
+
+nal ödeme yapılabilmektedir.
+
+
+--- Slide 13 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Çağrı geldiğinde Müşteri Karşılama ekranında sol tarafta bulunan ‘BİLGİ’ ekranı otomatik olarak ekranda açılacaktır.
+
+ik olarak ekranda açılacaktır. Bilgi ekranı açıldığında hatta olan müşterinin bir ‘uyarı’ kaydı var ise öncelik bu kayıtta olacaktır ve uyarı kaydı bilgilendirmesi tamamlandıktan sonra SKT yenileme için ‘bilgi’ ekranına yeniden giriş yapılması gerekmektedir.
+
+
+--- Slide 14 ---
+
+kmektedir.
+
+
+--- Slide 14 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+SKT yenileme için ‘Bilgi’ ekranında açılan uyarı bilgilendirmesi müşteriye okunarak kart & kurye ücreti ile vade yenileme teklif edilmelidir.
+
+
+--- Slide 15 ---
+
+ilmelidir.
+
+
+--- Slide 15 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Vade yenilemeyi kabul eden müşteriler için ‘ekrana git’ butonuna basıldığında müşterinin kart statüsüne göre yenileme seçenekleri çıkmaktadır.
+
+ileme seçenekleri çıkmaktadır. Bu aşamada Prepaid kart sahibi müşteriler için Debit ve Kredi Kartı seçimleri bulunmaktadır.
+Debit kart sahibi müşterileri için ise yalnızca Debit kart yenileme seçeneği çıkmaktadır.
+
+
+--- Slide 16 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Prepaid kart aynı statüde Prepaid olarak vade yenileme işlemine devam edildiğinde yalnızca kart  ‘teslimat adresi’ bilgisinin eklenmesi gerekmektedir.
+
+
+--- Slide 17 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Prepaid kart sahibi bir müşteri için vade yenileme işlemine Debit kart seçilerek devam edilirse öncelikle müşteriye Kredi Kartı sunulması için ekranda bir pop-up çıkmaktadır.
+
+
+--- Slide 18 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Müşteri Kredi Kartı istemeden Debit ile devam etmek isterse devam edilen ekranda Debit kart için gereken bilgilerin müşteriden talep edilerek doldurulması gerekmektedir.
+Tüm bilgiler tamamlandıktan sonra kaydet butonu ile işlem bitirilir.
+
+
+--- Slide 19 ---
+
+bitirilir.
+
+
+--- Slide 19 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+Prepaid kart sahipleri Kredi Kartı seçerek devam etmek isterlerse KK başvuru ekranı ile işlem tamamlanmaktadır.
+
+
+--- Slide 20 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+İşlemler tamamlandıktan sonra müşteriden onay alınarak sözleşme adımı tamamlanmaktadır.
+
+
+--- Slide 21 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Sözleşme adımında işlemi iptal eden ve onay vermeyen müşteriler için işlem iptal edilirse vade yenileme bir daha çağrı merkezi üzerinden yapılamamaktadır. Sözleşemeye onay vermeyen ve süreci iptal eden müşterilere uyarı pop-up içerisinde yer alan ‘ işlem yalnızca www.
+
+yer alan ‘ işlem yalnızca www.passolig.com.tr başvurularım sekmesinden tamamlanabilir’ bilgisi iletilmelidir.
+
+
+--- Slide 22 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Prepaid, Debit ya da Kredi Kartı seçilerek devam edilen ekranlarda bilgiler tamamlandıktan sonra müşteri ödeme için IVR’a aktarılmalıdır.
+
+eme için IVR’a aktarılmalıdır.
+IVR aracılığı ile farklı banka kartı ile ödeme yapılabileceği gibi içerisinde bakiye olan Passoligprepaid ya da debit kartla da yapılabilir. Eğer, vadesi dolan bir kart ile ödeme yapılmak istenirse kartın yeni SKT ve CVV numaralarına www.passolig.com.
+
+numaralarına www.passolig.com.tr web sitesinde ‘başvurularım’ alanına login olduktan sonra KART BAŞVURULARIM sekmesinde yer alan ‘Vadesi Yenilenmiş Dijital Kartlarım’ alanından ulaşılabilir ve bu bilgiler kullanılarak sanal ödeme yapılabilmektedir.
+
+
+--- Slide 23 ---
+
+lmektedir.
+
+
+--- Slide 23 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+IVR’da kart ile ödeme aşamasında müşterinin hatalı tuşlama yapması durumunda, Müşteri Karşılama ekranında uyarı bilgisi çıkmaktadır.
+
+
+--- Slide 24 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+IVR üzerinde ödeme için kart numarası başarılı bir şekilde tuşlandıktan sonra Vade Yenileme süresi tamamlanmış olur.
+
+
+--- Slide 25 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Vadesi yenilenmiş kartların kontrolü Debit & Prepaid Kart Bilgileri ekranından kontrol edilebilmektedir.
+
+
+--- Slide 26 ---
+
+Son Kullanım Tarihi Dolan Passolig Kartların Yenilenmesi
+
+assolig Kartların Yenilenmesi
+
+Müşteri tarafından fiziki kart talep edilmesi durumunda ödeme alınarak vadesi yenilenen kart müşteriye teslim edilmeden güvenli olmayan bir işlem yapılmak istenirse ‘Son Kullanma Tarihi Dolmuş Kart’ hatası alınacaktır.
+
+lmuş Kart’ hatası alınacaktır.
+
+[Kaynak 3] --- Slide 1 ---
+
+REPO EĞİTİM DOKÜMANI
+
+
+--- Slide 2 ---
+
+Repo, finansal araçların geri alma taahhüdü ile satımıdır.
+Repo yapmak için bankamızda Vadesiz Hesabın olması gerekmektedir.
+Getirisi önceden belli olduğu için risk taşımayan bir yatırım aracıdır.
+
+aşımayan bir yatırım aracıdır. Yatırım süresini 1 günden başlayan vadelerle müşteri tercihi doğrultusunda belirlenir.
+Piyasadaki koşullara göre faiz oranları güncellenir.
+
+öre faiz oranları güncellenir.
+Bankamızın tüm şubelerinden, İletişim Merkezi’nden, Aktif Bank İnternet Şubesi’ndenveya Mobil Uygulamadan09:30-17:00 saatleri arasında, 200 TL ve üzerindeki tutarlar için repo işlemi yapabilirsiniz.
+
+TL Repo Nedir?
+
+
+--- Slide 3 ---
+
+Repo Nedir?
+
+
+--- Slide 3 ---
+
+Ters repo (rezerv repo) geri satma taahhüdü ile alınan finansal araçların vade sonunda anapara ve faiz alınarak geri verilmesi işlemidir.
+
+arak geri verilmesi işlemidir.
+Ters repo' da ellerinde nakit bulunan kişi ya da kuruluşlar bu nakdi değerlendirmek amacıyla belirli bir faiz oranı ile ve önceden belirlenen vade sonunda geri satmak koşuluyla finansal araç satın almalarıdır.
+
+nansal araç satın almalarıdır.
+Buna göre bir repo işlemi alıcı yönünden ters repo olmaktadır.
+
+TL Repo Nedir?
+
+
+--- Slide 4 ---
+
+Kısa Açıklamalar;
+Bir bankaya gidip de "repo yaptığımızı" söylediğimizde aslında "ters repo" (rezerve repo) yapıyordur. Repoyu yapan aslında bankadır.
+
+Repoyu yapan aslında bankadır. Çünkü biz para vermişizdir, o da bize menkul kıymet. Vade sonunda o bize Anapara+Faizi verecek ve bizden menkul kıymetleri geri alacaktır.
+Repo vadesinden önce bozulmak istenirse, kişi faiz gelirini elde edemez.
+
+işi faiz gelirini elde edemez.
+Repo yapılan tutar üzerinden kısmi bozum yapılabilmekte, kısmi bozum yapılması halinde ise geri ödenecek olan faiz kalan tutar üzerinden hesaplanır.
+Repo işleminden elde edilen kazançlar %15 oranında stopaja tabidir.
+Repo Hesaplama; Anapara*gün sayısı*faiz%/365
+
+Anapara*gün sayısı*faiz%/365
+
+TL Repo Nedir?
+
+
+--- Slide 5 ---
+
+Avantajlı kurlarla alım-satım işlemleri ve repodaki yüksek faiz oranları ile dövizinizi en kolay değerlendireceğiniz yatırım ürünüdür.
+
+ndireceğiniz yatırım ürünüdür.
+Aktif Bank İnternet Şube'sinden veya (0850) 724 30 50 İletişim Merkezimizden avantajlı kurlarımızı öğrenebilir, hesaplama aracı ile döviz alım satımı yapacağınız tutarları hesaplayabilirsiniz.
+
+tutarları hesaplayabilirsiniz.
+Bankamızın tüm şubelerinden ve Aktif Bank İnternet Şubesi'nden 09:30-17:00 saatleri arasındaişlemyapılabilir.
+
+N Kolay Döviz Repo Nedir?
+
+
+--- Slide 6 ---
+
+​​​​
+Getirisi önceden belli olduğundan risk taşımayan bir yatırım aracıdır.
+
+aşımayan bir yatırım aracıdır.
+Yatırım süresini 1 günden başlayan vadelerle tercihiniz doğrultusunda belirleyebilirsiniz.
+Piyasadaki koşullara göre faiz oranları güncellenir.
+https://www.aktifbank.com.tr/tr/bireysel/yatirim/n-kolay-doviz sitesinden hesaplama aracı kullanılabilir.
+
+esaplama aracı kullanılabilir.
+Döviz Repo işleminden elde edilen kazançlar %15 oranında stopaja tabidir.
+
+N Kolay Döviz Repo Nedir?
+
+
+--- Slide 7 ---
+
+​​​​
+TL veya Döviz Repo almak isteyen müşterilerimizin Aktif Bank hesabının olması gerekir.
+
+Bank hesabının olması gerekir. Bu hesap daha önceden herhangi bir ürüne bağlı açılmış olabilir. Hiçbir ürünü olmayan sadece yatırım ürünü için hesap açmak isteyen müşteri şubelerden destek alabilir.
+
+ri şubelerden destek alabilir.
+Döviz Repo yapmak istediğini belirten müşterinin Aktif Bank hesabı olduktan sonra döviz hesabı açılmalıdır.  Hesabı olan müşteri için repo işlemi başlatılırken, döviz hesabı bulunmayan müşterilerimize öncelikle hesap açma işlemi tamamlanır.
+
+Hesap Açılışı
+
+i tamamlanır.
+
+Hesap Açılışı
+
+
+--- Slide 8 ---
+
+N Kolay Döviz Repo Alış
+
+Döviz repo işlemleri aşağıdaki ekranlar üzerinden yapılır.
+
+
+--- Slide 9 ---
+
+N Kolay Repo Alış
+
+Müşteri hesap seçimi yapılır.
+
+Talep edilen tutar yazılır.
+
+Vade süresi seçilir.
+
+
+--- Slide 10 ---
+
+N Kolay Repo Alış
+
+ide 10 ---
+
+N Kolay Repo Alış
+
+Giriş yapılması gereken alanlar doldurulduktan sonra «hesapla» butonuna basılır.
+
+
+--- Slide 11 ---
+
+N Kolay Repo Alış
+
+Ekranda çıkan bilgilendirme metninin tamamının okunup müşteriden onay alınması gerekir.
+
+
+--- Slide 12 ---
+
+N Kolay Repo Alış
+
+SCRİPT:
+“ ...
+
+Kolay Repo Alış
+
+SCRİPT:
+“ ... Hanım/Bey talebiniz üzerine, XXX nolu hesabınızdan XX USD/EURO/TL tutarda, X VADEDE ve X FAİZ ORANI ile repo alım işleminizi yapıyorum. Vadesinde önce bozum yapmanız halinde, satış yaptığınız tutar için faiz kazancınız olmayacak. Onaylıyor musunuz?”
+
+mayacak. Onaylıyor musunuz?”
+
+
+--- Slide 13 ---
+
+N Kolay Repo Alış Talimatı
+
+YP repo işlemlerinde işlem saati dışında talimat girişi yapılabilir.
+
+
+--- Slide 14 ---
+
+N Kolay Repo Alış Talimatı
+
+Alınan talimatlar talimat izleme/iptal ekranından gözlemleyebiliriz.
+
+ekranından gözlemleyebiliriz. Ekrana ilk girildiğinde aktif talimatlar seçili gelir ve istenirse talimat durumdan kapalı olanlarda gözlemlenebilir. Talimat aktif ise altta iptal butonu görüntülenir ve iptal yapılabilir.
+
+
+--- Slide 15 ---
+
+N Kolay Repo Bozum
+
+İlgili repo seçilir.
+
+po Bozum
+
+İlgili repo seçilir. Seçim sonrasında tamamı veya kısmı bozumu yapılabilir. Hesaplama butonunda çıkan bilgiler müşteriden onay alındıktan sonra  işlem tamamlanır.
+
+Müşterinin kısmi bozum yaptığı tutardan faiz kazancı olmayacaktır. Kalan tutardan kazanmaya devam edecektir.
+
+n kazanmaya devam edecektir.
+
+
+--- Slide 16 ---
+
+N Kolay Repo Bozum
+
+Satış ekranında da bozum talimatı alabiliriz.
+
+
+--- Slide 17 ---
+
+N Kolay Repo İzleme
+
+Mevcut repoların izlendiği takip edildiği ekrandır.
+
+
+--- Slide 18 ---
+
+N Kolay Repo İzleme
+
+e 18 ---
+
+N Kolay Repo İzleme
+
+Ters repo izleme ; repo bozumlarının takip edildiği ekrandır.
+
+
+--- Slide 19 ---
+
+N Kolay Repo Hesap Makinesi
+
+İstenilen döviz cinsi, tutar ve vade yazılarak müşteri talebine göre hesaplama yapılabilir.
+
+ne göre hesaplama yapılabilir.
+
+[Kaynak 4] --- Slide 1 ---
+
+Oturum Aç butonu ile sunuma başlayabilirsiniz
+
+
+--- Slide 2 ---
+
+Giriş yapıldığında karşılaşılan sayfa
+
+Burada kullanacakları tek yer sohbet butonu o sebeple diğerlerini eklemedim. Sohbete basarak işlem yapacaklar
+
+
+--- Slide 3 ---
+
+Sohbet yokken ekranın görüntüsü
+
+hbet yokken ekranın görüntüsü
+
+Sohbet geldiğindeki görüntüye geç
+
+
+--- Slide 4 ---
+
+Gelen konuşmayı sağda sohbet alanında görecek ve üstüne basarak içeriğini görebilecek
+
+
+--- Slide 5 ---
+
+Havuzda olup, kimseye atanmamış konuşma
+
+up, kimseye atanmamış konuşma
+
+Kimseye atanmadığını sağ tarafta Temsilci: olarak belirtilmediğinden anlayabiliriz. Şu an havuzda. Birine atandığında MT den konuşma kaybolacak.
+
+da MT den konuşma kaybolacak.
+
+Müşteri, temsilci talep ettiğinde daha önce bot ile yaptığı konuşmalar ile birlikte mt ye gidecek böylelikle müşterinin talebini anlamasına yardımcı olacak
+
+Atama gerçekleşmiş haline geç
+
+
+--- Slide 6 ---
+
+Atanmış konuşma sağdaki gibi görünüyor.
+
+onuşma sağdaki gibi görünüyor.
+Temsilci: BEGÜM SEVİNÇ olarak geldi
+
+Atandı mı veya havuzda mı görebilmek için sayfayı refresh etmelerine gerek yok kullanıcı butonuna basarak sağ tarafta açılan alanı güncelleyip son halini görebilirler
+
+MK’nın atama yapıldığındaki görüntüsü
+
+
+--- Slide 7 ---
+
+i görüntüsü
+
+
+--- Slide 7 ---
+
+Müşteri cevap vermezse belli bir süre sonrabot müşteriye 1 dk içinde yazmazsa konuşmanın kapanacağına dair bilgi verecek. Yine cevap gelmezse konuşmayı bot otomatik kapatacak ve bu konuşma solda sohbet alanından kaybolacak
+
+Müşterinin Göreceği Konuşma
+
+Müşterinin Göreceği Konuşma
+
+
+--- Slide 8 ---
+
+Sonlandıracağına dair verdiği uyarı
+
+Cevap vermediği için konuşmanın kapandığını söylediği yer. Müşteri burada puanlama ve görüş yazabilecek
+
+Müşterinin nasıl puan verdiğini ve açıklama yazdığını gör
+
+
+--- Slide 9 ---
+
+zdığını gör
+
+
+--- Slide 9 ---
+
+Görüşme bittikten sonra MT görüşmeyi sonlandırırken
+
+
+--- Slide 11 ---
+
+Konuşmanın çözümlendiğine dair bilgi vererek sohbet alanından konuşmayı otomatik kaldırdı.
+
+Konuşma kapandığı için Temsilci: ibaresi de gitti
+
+in Temsilci: ibaresi de gitti
+
+Mola, toplantı, eğitim vb fark etmeksizin MK da yapılan her tuşlamanın karşılığı burada çevrimdışı. Sohbet atanmaması için burayı mutlaka çevrimdışına almalı
+
+yı mutlaka çevrimdışına almalı
+
+[Kaynak 5] --- Slide 1 ---
+
+Bilet İade Güvencesi
+
+
+--- Slide 2 ---
+
+"Bilet İade Güvencesi" müşterinin satın almış olduğu etkinliğe katılmaması durumunda, ödediği bilet tutarını güvence altına alan bir üründür.
+
+vence altına alan bir üründür.
+Müşteriler, etkinlik başlangıç saatinden 24 saatten önce iletilen iade talebinde, herhangi bir  sebep belirtmeden bilet tutarının %90’ ını iade alabilir.Mücbir sebep durumlarında  ise,  belirli evrakların iletilmesi halinde ücretin tamamını iade alabilirler.
+
+tin tamamını iade alabilirler.
+Mücbir sebep nedeniyle yapılan iade taleplerinde,durumu belgeleyen resmi bir evrak (etkinlik tarihini kapsayan bir evrak)  ile birlikte, etkinlik tarihinden itibaren 15 gün sonrası içinde talep iletebilir.
+
+nrası içinde talep iletebilir. Değerlendirme sonrasında bilet ücretinin tamamını iade alabilirler.
+
+
+--- Slide 3 ---
+
+Müşteri Bilet İade Güvencesi, Nebula ekranından referans numarası gibi bilgilerle etkinlik detayından kontrol edilebilir.
+
+detayından kontrol edilebilir. Tip alanında "Insurance" yazıyorsa, kişinin Bilet İade Güvencesi'ne sahip olduğunu anlayabiliriz.
+
+
+--- Slide 4 ---
+
+Bilet İade Güvencesi, yalnızca bilet alımı sırasında satın alınabilir. Bilet satın alma işlemi gerçekleştikten sonra satın alınamaz.
+
+eştikten sonra satın alınamaz.
+Toplam satılan bilet sayısı ile Bilet İade Güvencesi sayısı aynı olmak zorunda değildir. Örneğin bir kişi toplamda 5 bilet alıp, satın alma aşamasında 3 kişi için Bilet İade Güvencesi alabilir. Bilet İade Güvencesi kişiye özeldir.
+
+İade Güvencesi kişiye özeldir.
+Davetiye ve hediye olarak sunulan veya kombine biletlere bilet iade güvencesi yapılamaz.
+Bilet İade Güvencesi için tahsil edilen ücret, etkinlik biletinin iptal edilmesi durumunda iade edilmez.
+Bilet İade Güvencesi'nde, güvence tutarı bilet tutarı üzerinden hesaplanır.
+
+t tutarı üzerinden hesaplanır. Bilet tutarına göre güvence tutarı farklılık gösterir.
+
+
+--- Slide 5 ---
+
+Etkinlik başlangıç saatine 24 saatten az kalması durumunda yapılan keyfi iade talepleri.
+Mücbir sebep durumunda etkinliğin başlama saatini takip eden 15 günden sonra yapılan iade talepleri.
+
+sonra yapılan iade talepleri.
+Organizatör firmanın  iflas etmesi.
+
+Bilet İade Güvencesi Kapsamında Bilet Ücret İadesi Yapılmayacak Durumlar
+
+
+--- Slide 6 ---
+
+Cayma Hakkı süreci içerisinde olan müşteriler için, Bilet İade & Ücret İade kategorisinden MBS kaydı açılabilir.
+
+risinden MBS kaydı açılabilir. Cayma hakkı kaynaklı aynı gün (24 saat) içinde satın güvencenin iptal talebi alınacaktır.
+Müşterileri, mücbir sebeplerden dolayı iptal etmek istediğinde, durumu belgeleyen evraklarıdestek@passo.com.tr’ ye mail olarak iletilmelidir.
+Mücbir sebepler:
+1.
+
+ilmelidir.
+Mücbir sebepler:
+1.Derece Yakın Vefatı
+Sağlık Sebebi
+Hukuki Sebep
+Doğal Afet
+Adli Vaka
+Trafik Kazası
+Keyfi nedenlerden dolayı iptal edilecek ise; etkinlik saatine 24 saat ‘ten az kalmamış olduğu kontrol edilmeli eğer uygunsa iptali için Bilet İade& Ücret İade kategorisinden MBS kaydı açıl
+
+kategorisinden MBS kaydı açılmalıdır.
+Bilet İade Güvencesi iade tutarı ödeme alınan karta, etkinlik bilet bedelinin % 90 ‘ı olacak şekilde ilgili talebe istinaden 15 gün içinde yapılarak müşteri SMS ile bilgilendirilecektir.
+
+SMS ile bilgilendirilecektir.
+Etkinlik organizatör tarafından iptal edildiğinde bilet iade tutarları otomatik olarak yapılıyor.
+
+Bilet İade Güvencesi İptal Talepleri
+
+
+--- Slide 7 ---
+
+Bilet İade Güvencesi Ekranları
+
+Etkinliğe Bağlı Ek Ürün Seçim Ekranı
+
+ğe Bağlı Ek Ürün Seçim Ekranı
+
+Müşteri, seçtiği etkinlik için "Bilet İade Güvencesi" ek ürünü çıkıyorsa ek ürün  seçimini bu ekrandan yapar
+
+
+--- Slide 8 ---
+
+Bilet İade Güvencesi Ekranları
+
+Bilet Seçim Ekranıları
+
+Etkinlik için bilet seçimini yapar. Ekranda müşteriden istenilen bilgiler doldurulur.
+
+istenilen bilgiler doldurulur.
+
+
+--- Slide 9 ---
+
+Bilet İade Güvencesi Ekranları
+
+Ödeme Adımı
+
+Müşteri, bu ekranda ödeme tipini seçip ödeme işlemini tamamlar
+
+
+--- Slide 10 ---
+
+Bilet İade Güvencesi Ekranları
+
+Başarılı Satın Alma Ekranı
+
+ı
+
+Başarılı Satın Alma Ekranı
+
+Bilet ve Bilet İade Güvencesi satın alım işlemi başarılı olduğunda ekran görseldeki çıkacaktır. Bilet İade Güvencesi detaylarını görmek isteyen müşteriler "Detayları Görüntüle" butonundan detaylarını kontrol edebilirler
+
+
+--- Slide 11 ---
+
+debilirler
+
+
+--- Slide 11 ---
+
+Bilet İade Güvencesi Ekranları
+
+Bilet İade Güvencesi Detayları
+
+
+--- Slide 12 ---
+
+Bilet İade Güvencesi Ekranları
+
+Sertifika Ekranı
+
+si Ekranları
+
+Sertifika Ekranı
 ==================================================

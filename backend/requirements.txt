@@ -12,8 +12,10 @@ alembic==1.13.1
 
 # Vector database and embeddings
 pinecone-client==3.2.2
-google-genai==0.8.2
-sentence-transformers==3.3.1
+google-genai>=1.24.0
+sentence-transformers
+rank_bm25
+scikit-learn>=1.3.1
 torch>=1.9.0
 
 # Document processing
@@ -23,17 +25,50 @@ python-pptx==1.0.2
 pandas==2.2.2
 openpyxl==3.1.2
 
+# Phase 4.8: Multi-modal processing (Context7 verified)
+Pillow>=10.0.0
+pytesseract>=0.3.10
+
 # Authentication and security
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.9
 
-# HTTP requests
-httpx==0.27.0
-requests==2.32.3
+# HTTP requests (updated for compatibility)
+httpx>=0.28.1
+requests>=2.32.3
 
-# Caching
+# Caching (Context7 verified Redis OM for advanced caching)
 redis==5.0.6
+redis-om>=0.2.1
+fastapi-cache2[redis]>=0.2.1
 
 # Utility
-python-dotenv==1.0.0 
+python-dotenv==1.0.0
+
+# Real-time notifications
+python-socketio[asyncio]>=5.0.0
+fastapi-websocket-pubsub>=0.3.7
+
+# Dask
+dask[complete]>=2023.0.0 
+
+# Phase 4: AI Enhancement & Advanced Features (simplified for compatibility)
+# Try to install core packages first without strict versions
+langchain>=0.3.0
+langchain-openai>=0.2.0
+langgraph>=0.2.74
+langchain-google-genai>=2.0.0
+# We'll install GraphRAG separately due to dependency complexity
+# graphrag>=0.3.0
+
+# Additional dependencies for basic functionality
+networkx>=3.2
+textblob>=0.17.1
+transformers>=4.40.0
+
+# Additional ML dependencies
+numpy>=1.24.0
+scipy>=1.11.0
+matplotlib>=3.7.0
+PyYAML>=6.0 

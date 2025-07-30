@@ -65,7 +65,7 @@ trap cleanup SIGINT SIGTERM
 # Start backend server
 echo "🔧 Starting Backend (FastAPI on port 8002)..."
 cd backend
-python simple_server.py &
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8002 --reload &
 BACKEND_PID=$!
 cd ..
 
