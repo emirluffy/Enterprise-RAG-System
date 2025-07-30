@@ -202,7 +202,7 @@ const REFRESH_TOKEN_KEY = 'rag_refresh_token'
 const USER_KEY = 'rag_user'
 
 // API Base URL
-const API_BASE_URL = 'http://localhost:8002/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'
 
 // Provider Component
 interface AuthProviderProps {

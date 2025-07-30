@@ -21,7 +21,7 @@ const NotificationSystem: React.FC = () => {
 
   useEffect(() => {
     // Initialize Socket.IO connection with Context7 fix
-    const socket = io('http://localhost:8002', {
+    const socket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:8002', {
       transports: ['polling', 'websocket'], // Context7 fix: Try polling first
       timeout: 5000,
       reconnection: true,

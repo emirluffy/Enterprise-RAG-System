@@ -22,8 +22,8 @@ import RealtimeCollaboration from './components/Collaboration/RealtimeCollaborat
 // User Profile Modal (Context7 Verified)
 import { UserProfileModal } from './components/UserProfile'
 
-
-
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'
 
 // Graph Explorer removed
 
@@ -270,7 +270,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
 
   // Context7 verified Multi-Upload Configuration
   const uploadDestination = {
-    url: "http://localhost:8002/api/v1/documents/upload-multiple",
+    url: `${API_BASE_URL}/documents/upload-multiple`,
     method: "POST" as const,
     headers: {
       'Authorization': `Bearer ${auth.accessToken}`
@@ -323,7 +323,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
   const fetchDocuments = async () => {
     setIsLoadingDocs(true)
     try {
-      const response = await fetch('http://localhost:8002/api/v1/documents/library', {
+      const response = await fetch(`${API_BASE_URL}/documents/library`, {
         headers: {
           'Authorization': `Bearer ${auth.accessToken}`
         }
@@ -347,7 +347,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
     if (!confirmed) return
 
     try {
-      const response = await fetch(`http://localhost:8002/api/v1/documents/document/${encodeURIComponent(document.id)}`, {
+      const response = await fetch(`${API_BASE_URL}/documents/document/${encodeURIComponent(document.id)}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${auth.accessToken}`
@@ -391,7 +391,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
   const fetchConversations = async () => {
     setIsLoadingConversations(true)
     try {
-      const response = await fetch('http://localhost:8002/api/v1/conversations/', {
+      const response = await fetch(`${API_BASE_URL}/conversations/`, {
         headers: {
           'Authorization': `Bearer ${auth.accessToken}`
         }
@@ -408,7 +408,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
 
   const createNewConversation = async () => {
     try {
-      const response = await fetch('http://localhost:8002/api/v1/conversations/', {
+      const response = await fetch(`${API_BASE_URL}/conversations/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -452,7 +452,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
 
   const loadConversation = async (conversationId: string) => {
     try {
-      const response = await fetch(`http://localhost:8002/api/v1/conversations/${conversationId}/`, {
+      const response = await fetch(`${API_BASE_URL}/conversations/${conversationId}/`, {
         headers: {
           'Authorization': `Bearer ${auth.accessToken}`
         }
@@ -500,7 +500,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
 
   const deleteConversation = async (conversationId: string) => {
     try {
-      const response = await fetch(`http://localhost:8002/api/v1/conversations/${conversationId}/`, {
+      const response = await fetch(`${API_BASE_URL}/conversations/${conversationId}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${auth.accessToken}`
@@ -583,7 +583,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
         content: msg.content
       }))
 
-      const response = await fetch('http://localhost:8002/api/v1/chat/query', {
+      const response = await fetch(`${API_BASE_URL}/chat/query`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -649,7 +649,7 @@ function AuthenticatedApp({ user, onLogout }: { user: any, onLogout: () => void 
     formData.append('file', file)
 
     try {
-      const response = await fetch('http://localhost:8002/api/v1/documents/upload', {
+      const response = await fetch(`${API_BASE_URL}/documents/upload`, {
         method: 'POST',
         body: formData
       })

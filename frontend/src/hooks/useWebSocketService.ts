@@ -102,7 +102,7 @@ export const useWebSocketService = (
   const analyticsHandlers = useRef<Set<(event: AnalyticsEvent) => void>>(new Set());
   
   // WebSocket URL
-  const socketUrl = `ws://localhost:8002/ws/connect`;
+  const socketUrl = import.meta.env.VITE_WS_URL || `ws://localhost:8002/ws/connect`;
   
   // Context7-verified WebSocket configuration
   const {

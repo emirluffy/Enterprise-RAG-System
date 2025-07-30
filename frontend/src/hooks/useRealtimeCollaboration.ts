@@ -80,7 +80,7 @@ const useRealtimeCollaboration = ({
   userId,
   userInfo,
   roomType = 'chat',
-  serverUrl = 'ws://localhost:8002'
+      serverUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8002'
 }: UseRealtimeCollaborationProps): UseRealtimeCollaborationReturn => {
   
   // State management
@@ -234,7 +234,7 @@ const useRealtimeCollaboration = ({
     if (!isConnected || hasJoinedRoom) return;
     
     try {
-      const response = await fetch(`http://localhost:8002/api/v1/collaboration/rooms/join`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'}/collaboration/rooms/join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -266,7 +266,7 @@ const useRealtimeCollaboration = ({
     if (!hasJoinedRoom) return;
     
     try {
-      await fetch(`http://localhost:8002/api/v1/collaboration/rooms/leave?room_id=${roomId}&user_id=${userId}`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'}/collaboration/rooms/leave?room_id=${roomId}&user_id=${userId}`, {
         method: 'POST'
       });
       
@@ -291,7 +291,7 @@ const useRealtimeCollaboration = ({
     }
     
     try {
-      const response = await fetch(`http://localhost:8002/api/v1/collaboration/rooms/message`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'}/collaboration/rooms/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -328,7 +328,7 @@ const useRealtimeCollaboration = ({
     }
     
     // Send typing status
-    fetch(`http://localhost:8002/api/v1/collaboration/rooms/typing`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002/api/v1'}/collaboration/rooms/typing`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
