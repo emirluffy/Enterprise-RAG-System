@@ -9,7 +9,7 @@
  * - Automatic token refresh
  * - Persistent authentication
  */
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
 
 // Types (Context7 verified)
 interface UserPreferences {
