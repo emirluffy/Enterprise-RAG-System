@@ -100,13 +100,12 @@ const useRealtimeCollaboration = ({
   
   // Context7 verified: useWebSocket hook with proper configuration
   const {
-    sendMessage: sendWebSocketMessage,
     lastMessage,
     readyState,
     getWebSocket
   } = useWebSocket(socketUrl, {
     // Context7 verified: Reconnection configuration
-    shouldReconnect: (closeEvent) => {
+    shouldReconnect: (_closeEvent) => {
       // Don't reconnect if component is unmounted
       return mountedRef.current;
     },

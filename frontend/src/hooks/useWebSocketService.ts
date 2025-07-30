@@ -84,7 +84,7 @@ export interface WebSocketServiceHook {
   
   // Active users
   activeUsers: string[];
-  userSessions: Record<string, number>;
+  // userSessions: Record<string, number>; // Removed for deployment
 }
 
 export const useWebSocketService = (
@@ -93,7 +93,6 @@ export const useWebSocketService = (
 ): WebSocketServiceHook => {
   const sessionId = useRef<string>(uuidv4());
   const [activeUsers, setActiveUsers] = useState<string[]>([]);
-  const [userSessions, setUserSessions] = useState<Record<string, number>>({});
   
   // Event handlers storage
   const chatHandlers = useRef<Set<(event: ChatEvent) => void>>(new Set());
@@ -135,14 +134,7 @@ export const useWebSocketService = (
       },
       shouldReconnect: () => enableReconnect,
       reconnectAttempts: 10,
-      reconnectInterval: (attemptNumber) =>
-        Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
-      heartbeat: {
-        message: JSON.stringify({ event_type: 'ping' }),
-        returnMessage: 'pong',
-        timeout: 120000,
-        interval: 30000,
-      },
+      reconnectInterval: 3000,
       filter: (message) => {
         try {
           const data = JSON.parse(message.data);
@@ -298,7 +290,6 @@ export const useWebSocketService = (
     disconnect,
     
     // Active users
-    activeUsers,
-    userSessions
+    activeUsers
   };
 }; 
