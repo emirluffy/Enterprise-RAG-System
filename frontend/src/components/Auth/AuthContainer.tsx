@@ -2,7 +2,7 @@
  * Enterprise RAG System - Auth Container Component
  * Manages switching between login and register forms
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { LoginForm } from './LoginForm'
 import { RegisterForm } from './RegisterForm'
 

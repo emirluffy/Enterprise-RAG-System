@@ -259,7 +259,7 @@ function ProfileTab({ profileForm, setProfileForm, onSubmit, user }: any) {
             <input
               type="text"
               value={profileForm.full_name}
-              onChange={(e) => setProfileForm(prev => ({ ...prev, full_name: e.target.value }))}
+              onChange={(e) => setProfileForm((prev: any) => ({ ...prev, full_name: e.target.value }))}
               className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -270,7 +270,7 @@ function ProfileTab({ profileForm, setProfileForm, onSubmit, user }: any) {
             </label>
             <textarea
               value={profileForm.bio}
-              onChange={(e) => setProfileForm(prev => ({ ...prev, bio: e.target.value }))}
+              onChange={(e) => setProfileForm((prev: any) => ({ ...prev, bio: e.target.value }))}
               rows={3}
               className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
               placeholder="Kendiniz hakkında kısa bilgi..."
@@ -284,7 +284,7 @@ function ProfileTab({ profileForm, setProfileForm, onSubmit, user }: any) {
             <input
               type="text"
               value={profileForm.department}
-              onChange={(e) => setProfileForm(prev => ({ ...prev, department: e.target.value }))}
+              onChange={(e) => setProfileForm((prev: any) => ({ ...prev, department: e.target.value }))}
               className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
             />
           </div>
